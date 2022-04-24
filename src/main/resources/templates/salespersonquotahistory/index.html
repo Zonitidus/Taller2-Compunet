@@ -4,7 +4,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="x-ua-compatible" content="ie=edge">
-	<title>Sales Persons</title>
+	<title>Sales Person Quota Histories</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
 		integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
@@ -14,29 +14,29 @@
 </head>
 
 <body>
-	<div th:switch="${salespersons}" class="container my-5">
+	<div th:switch="${salespersonquotahistories}" class="container my-5">
 		<div class="row">
 			<div class="col-md-10">
-				<h2 th:case="null">No Sales Persons yet!</h2>
+				<h2 th:case="null">No Sales Person Quota Histories yet!</h2>
 				<div th:case="*">
-					<h2 class="my-5">Sales Persons</h2>
+					<h2 class="my-5">Sales Person Quota Histories</h2>
 					<table class="table table-striped table-responsive-md">
 						<thead>
 							<tr>
+								<th>Id</th>
 								<th>Sales Person Id</th>
+								<th>Date</th>
 								<th>Sales Quota</th>
-								<th>Sales Commision</th>
-								<th>Sales Territory</th>
 								<th>Edit</th>
 							</tr>
 						</thead>
 						<tbody>
-							<tr th:each="salesperson : ${salespersons}">
-								<td th:text="${salesperson.businessentityid}"></td>
-								<td th:text="${salesperson.salesquota}"></td>
-								<td th:text="${salesperson.commissionpct}"></td>
-								<td th:text="${salesperson.salesterritory.name}"></td>
-								<td><a th:href="@{/salesperson/edit/{id}(id=${salesperson.businessentityid})}" class="btn btn-primary"><i
+							<tr th:each="salespersonquotahistory : ${salespersonquotahistories}">
+								<td th:text="${salespersonquotahistory.id}"></td>
+								<td th:text="${salespersonquotahistory.salesperson.businessentityid}"></td>
+								<td th:text="${salespersonquotahistory.modifieddate}"></td>
+								<td th:text="${salespersonquotahistory.salesquota}"></td>
+								<td><a th:href="@{/salespersonquotahistory/edit/{id}(id=${salespersonquotahistory.id})}" class="btn btn-primary"><i
 											class="fas fa-calendar ml-2"></i></a></td>
 							</tr>
 						</tbody>

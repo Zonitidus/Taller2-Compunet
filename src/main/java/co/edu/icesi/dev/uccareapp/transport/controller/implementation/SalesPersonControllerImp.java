@@ -2,9 +2,6 @@ package co.edu.icesi.dev.uccareapp.transport.controller.implementation;
 
 import java.util.Optional;
 
-import javax.validation.Valid;
-import javax.validation.constraints.Size;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,18 +15,26 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import co.edu.icesi.dev.uccareapp.transport.controller.interfaces.SalesPersonController;
 import co.edu.icesi.dev.uccareapp.transport.model.sales.Salesperson;
+import co.edu.icesi.dev.uccareapp.transport.model.sales.Salesterritory;
+import co.edu.icesi.dev.uccareapp.transport.repository.BusinessEntittyRepository;
+import co.edu.icesi.dev.uccareapp.transport.repository.SalesTerritoryRepository;
 import co.edu.icesi.dev.uccareapp.transport.service.implementation.SalesPersonServiceImp;
 
 @Controller
 public class SalesPersonControllerImp implements SalesPersonController {
 
 	SalesPersonServiceImp salesPersonService;
+	BusinessEntittyRepository businessEntityRepository;
+	SalesTerritoryRepository salesTerritoryRepository;
 
 	@Autowired
-	public SalesPersonControllerImp(SalesPersonServiceImp salesPersonService) {
+	public SalesPersonControllerImp(SalesPersonServiceImp salesPersonService,
+			BusinessEntittyRepository businessEntityRepository, SalesTerritoryRepository salesTerritoryRepository) {
 		this.salesPersonService = salesPersonService;
+		this.businessEntityRepository = businessEntityRepository;
+		this.salesTerritoryRepository = salesTerritoryRepository;
 	}
-	
+
 	@GetMapping("/login")
 	public String login(Model model) {
 		return "/login";
@@ -37,19 +42,32 @@ public class SalesPersonControllerImp implements SalesPersonController {
 
 	@GetMapping("/salesperson/add")
 	public String addSalesPerson(Model model) {
-		model.addAttribute("salesPerson", new Salesperson());
-		return "salesperson/add";
+
+		model.addAttribute("salesperson", new Salesperson());
+		model.addAttribute("businessentities", businessEntityRepository.findAll());
+		model.addAttribute("salesterritories", salesTerritoryRepository.findAll());
+		
+		for(Salesterritory i: salesTerritoryRepository.findAll()) {
+			System.out.println(i.getName());
+		}
+		
+		return "salesperson/add-salesperson";
 	}
 
 	@GetMapping("/salesperson/")
 	public String indexSalesPerson(Model model) {
-		model.addAttribute("salesPersons", salesPersonService.findAll());
+		model.addAttribute("salespersons", salesPersonService.findAll());
+		
+		for(Salesperson i: salesPersonService.findAll()) {
+			System.out.println(i.getCommissionpct());
+		}
+		
 		return "salesperson/index";
 	}
 
 	@PostMapping("/salesperson/add")
-	public String saveUser(@Validated @ModelAttribute Salesperson sp, BindingResult bindingResult,
-			Model model, @RequestParam(value = "action", required = true) String action) {
+	public String saveUser(@Validated @ModelAttribute Salesperson sp, BindingResult bindingResult, Model model,
+			@RequestParam(value = "action", required = true) String action) {
 
 		if (!action.equals("Cancel")) {
 			if (bindingResult.hasErrors()) {
@@ -63,31 +81,33 @@ public class SalesPersonControllerImp implements SalesPersonController {
 		return "redirect:/salesperson/";
 	}
 
-
 	@GetMapping("/salesperson/edit/{id}")
 	public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
 		Optional<Salesperson> user = salesPersonService.findById(id);
+		
 		if (user == null)
 			throw new IllegalArgumentException("Invalid user Id:" + id);
-		model.addAttribute("Salesperson", user.get());
+		model.addAttribute("salesperson", user.get());
+		model.addAttribute("salesterritories", salesTerritoryRepository.findAll());
+		
 		return "salesperson/update-salesperson";
 	}
 
 	@PostMapping("/salesperson/edit/{id}")
-	public String updateUser(@Validated @ModelAttribute Salesperson sp,
-			BindingResult bindingResult, Model model, @PathVariable("id") Integer id,
-			@RequestParam(value = "action", required = true) String action, String newPassword) {
+	public String updateUser(@Validated @ModelAttribute Salesperson sp, BindingResult bindingResult, Model model,
+			@PathVariable("id") Integer businessentityid, @RequestParam(value = "action", required = true) String action) {
 		if (action != null && !action.equals("Cancel")) {
-			
 			if (bindingResult.hasErrors()) {
 				return "/salesperson/update-salesperson";
 			}
-
-			Salesperson u = salesPersonService.findById(sp.getBusinessentityid()).get();
-
-			salesPersonService.save(u);
+			
+			
+			Salesperson salesp = sp;
+			salesp.setBusinessentityid(businessentityid);
+			
+			salesPersonService.edit(salesp);
 			model.addAttribute("salespersons", salesPersonService.findAll());
 		}
-		return "redirect:/users/";
+		return "redirect:/salesperson/";
 	}
 }

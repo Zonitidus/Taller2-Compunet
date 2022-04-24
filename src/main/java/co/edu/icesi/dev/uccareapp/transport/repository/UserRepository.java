@@ -9,8 +9,6 @@ import co.edu.icesi.dev.uccareapp.transport.model.UserApp;
 import co.edu.icesi.dev.uccareapp.transport.model.UserType;
 
 public interface UserRepository extends CrudRepository<UserApp, Long> {
-
-	List<UserApp> findByName(String name);
 	
 	List<UserApp> findByType(UserType patient);
 	

@@ -12,8 +12,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	private LoggingAccessDeniedHandler accessDeniedHandler;
 
-//	@Autowired
-//	private MyCustomUserDetailsService userDetailsService;
+	@Autowired
+	private MyCustomUserDetailsService userDetailsService;
 
 //	@Override
 //	protected void configure(AuthenticationManagerBuilder auth) throws Exception {

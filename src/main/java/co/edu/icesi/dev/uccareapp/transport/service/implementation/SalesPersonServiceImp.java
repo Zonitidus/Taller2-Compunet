@@ -3,13 +3,13 @@ package co.edu.icesi.dev.uccareapp.transport.service.implementation;
 import java.math.BigDecimal;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import co.edu.icesi.dev.uccareapp.transport.model.sales.Salesperson;
 import co.edu.icesi.dev.uccareapp.transport.repository.BusinessEntittyRepository;
 import co.edu.icesi.dev.uccareapp.transport.repository.EmployeeRepository;
 import co.edu.icesi.dev.uccareapp.transport.repository.SalesPersonRepository;
-import co.edu.icesi.dev.uccareapp.transport.repository.SalesTerritoryHistoryRepository;
 import co.edu.icesi.dev.uccareapp.transport.repository.SalesTerritoryRepository;
 import co.edu.icesi.dev.uccareapp.transport.service.interfaces.SalesPersonService;
 
@@ -21,7 +21,7 @@ public class SalesPersonServiceImp implements SalesPersonService {
 	private SalesPersonRepository salesPersonRepo;
 	private SalesTerritoryRepository salesTerritoryRepo;
 	
-	
+	@Autowired
 	public SalesPersonServiceImp(BusinessEntittyRepository businessEntityRepo, EmployeeRepository employeeRepo,
 			SalesPersonRepository salesPersonRepo, SalesTerritoryRepository salesTerritoryRepo) {
 		
