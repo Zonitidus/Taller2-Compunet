@@ -3,6 +3,7 @@ package co.edu.icesi.dev.uccareapp.transport.controller.implementation;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -23,6 +24,7 @@ import co.edu.icesi.dev.uccareapp.transport.repository.SalesTerritoryRepository;
 import co.edu.icesi.dev.uccareapp.transport.service.implementation.SalesPersonQuotaHistoryServiceImp;
 import co.edu.icesi.dev.uccareapp.transport.service.implementation.SalesPersonServiceImp;
 
+@Controller
 public class SalesPersonQuotaHistoryControllerImp implements SalesQuotaHistoryController {
 
 	SalesPersonRepository salesPersonRepo;
@@ -39,11 +41,6 @@ public class SalesPersonQuotaHistoryControllerImp implements SalesQuotaHistoryCo
 		this.salesPersonQuotaHistoryService = salesPersonQuotaHistoryService;
 	}
 
-	@GetMapping("/login")
-	public String login(Model model) {
-		return "/login";
-	}
-
 	@GetMapping("/salespersonquotahistory/add")
 	public String addSalesPerson(Model model) {
 
@@ -55,7 +52,7 @@ public class SalesPersonQuotaHistoryControllerImp implements SalesQuotaHistoryCo
 
 	@GetMapping("/salespersonquotahistory/")
 	public String indexSalesPerson(Model model) {
-		model.addAttribute("salespersonquotahistories", salesPersonRepo.findAll());
+		model.addAttribute("salespersonquotahistories", salesPersonQuotaHistoryRepo.findAll());
 
 		return "salespersonquotahistory/index";
 	}
@@ -67,7 +64,7 @@ public class SalesPersonQuotaHistoryControllerImp implements SalesQuotaHistoryCo
 		if (!action.equals("Cancel")) {
 			if (bindingResult.hasErrors()) {
 				System.out.println("****************fffffffffffffff" + "*");
-				return "/salespersonquotahistory/add";
+				return "/salespersonquotahistory/add-salespersonquotahistory";
 			}
 			spqh = salesPersonQuotaHistoryService.save(spqh);
 			model.addAttribute("id", spqh.getId());

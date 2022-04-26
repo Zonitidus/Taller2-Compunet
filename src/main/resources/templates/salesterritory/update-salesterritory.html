@@ -16,39 +16,33 @@
 		<h2 class="mb-5">Update Sales Person</h2>
 		<div class="row">
 			<div class="col-md-5">
-				<form action="#" th:object="${salesperson}"
-					th:action="@{/salesperson/edit/{id}(id=${salesperson.getBusinessentityid()})}" method="post">
+				<form action="#" th:object="${salesperson}" th:action="@{/salesperson/edit/{id}(id=${salesperson.getBusinessentityid()})}"
+					method="post">
 					<div class="row">
 						<div class="form-group col-md-6">
 
-							<div class="col-form-label">
-								<label for="name" class="col-form-label">Id</label> <input type="number"
-									th:field="*{id}" class="form-control" id="name" placeholder="0" disabled> <span
-									th:if="${#fields.hasErrors('id')}" th:errors="*{id}" class="text-danger"></span>
-							</div>
-
-							<div class="col-form-label">
-								<label for="type" class="col-form-label">Sales Person</label>
-								<select class="form-control-range" th:field="*{salesperson}">
-									<option th:each="salesperson : ${salespersons}"
-										th:value="${salesperson.getBusinessentityid()}" class="form-control"
-										th:text="${salesperson.getBusinessentityid()}"
-										th:selected="${salespersonquotahistory.salesperson=salesperson}"></option>
-								</select>
-							</div>
-
-							<div class="col-form-label">
-								<label for="date" class="col-form-label">Date</label> <input type="date"
-									th:field="*{modifieddate}" class="form-control" id="modifieddate"
-									placeholder="Date"> <span th:if="${#fields.hasErrors('modifieddate')}"
-									th:errors="*{modifieddate}" class="text-danger"></span>
-							</div>
+							<label for="id" class="col-form-label">Id</label> <input type="text" th:field="*{businessentityid}"
+								class="form-control" id="id" placeholder="Id" disabled>
 
 							<label for="name" class="col-form-label">Sales quota</label> <input type="number"
 								th:field="*{salesquota}" class="form-control" id="name" placeholder="0"> <span
 								th:if="${#fields.hasErrors('salesquota')}" th:errors="*{salesquota}"
 								class="text-danger"></span>
 
+							<label for="username" class="col-form-label">Comission</label> <input type="text"
+								th:field="*{commissionpct}" class="form-control" id="commissionpct" placeholder="0">
+							<span th:if="${#fields.hasErrors('commissionpct')}" th:errors="*{commissionpct}"
+								class="text-danger"></span>
+
+
+							<div class="col-form-label">
+								<label for="type" class="col-form-label">Sales Territory</label>
+								<select class="form-control-range" th:field="*{salesterritory}">
+									<option th:each="salesterritory : ${salesterritories}" th:value="${salesterritory.getTerritoryid()}" class="form-control"
+										th:text="${salesterritory.getName()}" th:selected="${salesperson.salesterritory=salesterritory}"></option>
+								</select>
+							</div>
+							
 						</div>
 						<div class="row">
 							<div class="col-md-4 mt-3">

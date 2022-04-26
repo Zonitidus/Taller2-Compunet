@@ -39,7 +39,7 @@ public class SalesTerritoryHistoryServiceImp implements SalesTerritoyHistoryServ
 		if (sth == null)
 			throw new RuntimeException("Cannot save a null saveSalesTerritoryHistory object.");
 		
-		if (sth.getId() == null || sth.getEnddate() == null || sth.getModifieddate() == null
+		if (sth.getEnddate() == null || sth.getModifieddate() == null
 				|| sth.getSalesperson() == null || sth.getSalesterritory() == null)
 			throw new RuntimeException("Cannot save a saveSalesTerritoryHistory object with null attributes.");
 

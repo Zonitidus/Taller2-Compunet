@@ -32,12 +32,12 @@
 								<select class="form-control-range" th:field="*{salesperson}">
 									<option th:each="salesperson : ${salespersons}"
 										th:value="${salesperson.getBusinessentityid()}" class="form-control"
-										th:text="${salesperson.getName()}"
+										th:text="${salesperson.getBusinessentityid()}"
 										th:selected="${salespersonquotahistory.salesperson=salesperson}"></option>
 								</select>
 							</div>
 
-							<div class="form-group col-md-6">
+							<div class="col-form-label">
 								<label for="date" class="col-form-label">Date</label> <input type="date"
 									th:field="*{modifieddate}" class="form-control" id="modifieddate"
 									placeholder="Date"> <span th:if="${#fields.hasErrors('modifieddate')}"

@@ -11,6 +11,7 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.thymeleaf.extras.java8time.dialect.Java8TimeDialect;
 
 import co.edu.icesi.dev.uccareapp.transport.model.UserApp;
 import co.edu.icesi.dev.uccareapp.transport.model.UserType;
@@ -25,6 +26,11 @@ import co.edu.icesi.dev.uccareapp.transport.repository.UserRepository;
 @SpringBootApplication
 public class TallerunoApplication {
 
+	@Bean
+	public Java8TimeDialect java8TimeDialect() {
+		return new Java8TimeDialect();
+	}
+	
 	public static void main(String[] args) {
 		SpringApplication.run(TallerunoApplication.class, args);
 	}
@@ -37,16 +43,16 @@ public class TallerunoApplication {
 			UserApp u = new UserApp();
 			u.setId(1);
 			u.setType(UserType.admin);
-			u.setUsername("Admin");
-			u.setPassword("{noop}123456789");
+			u.setUsername("admin");
+			u.setPassword("{noop}123");
 		
 			ur.save(u);
 			
 			UserApp u2 = new UserApp();
 			u2.setId(2);
 			u2.setType(UserType.operator);
-			u2.setUsername("Operator");
-			u2.setPassword("{noop}123456789");
+			u2.setUsername("operator");
+			u2.setPassword("{noop}123");
 		
 			ur.save(u2);
 			
@@ -76,8 +82,6 @@ public class TallerunoApplication {
 			
 			Iterable<Countryregion> crs = countryRegionRepo.findAll();
 			for (Countryregion country : crs) {
-				
-				System.out.println(country.getName());
 				
 				if(country.getName() != null) {
 					if (country.getName().equals("Inglaterra")) {

@@ -31,7 +31,7 @@ public class SalesPersonQuotaHistoryServiceImp implements SalesPersonQuotaHistor
 		if (spqh == null)
 			throw new RuntimeException("Cannot save a null Salespersonquotahistory object.");
 
-		if (spqh.getId() == null || spqh.getModifieddate() == null || spqh.getSalesperson() == null
+		if (spqh.getModifieddate() == null || spqh.getSalesperson() == null
 				|| spqh.getSalesquota() == null)
 			throw new RuntimeException("Cannot save a Salespersonquotahistory object with null attributes.");
 

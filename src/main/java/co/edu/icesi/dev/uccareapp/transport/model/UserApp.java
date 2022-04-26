@@ -31,7 +31,6 @@ public class UserApp {
 	private String username;
 	
 	@NotBlank
-	@Size(min=8, message = "8 character minimum")
 	private String password;
 	
 	@NotNull

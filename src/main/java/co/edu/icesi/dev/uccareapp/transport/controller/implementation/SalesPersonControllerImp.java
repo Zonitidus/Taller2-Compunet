@@ -47,20 +47,12 @@ public class SalesPersonControllerImp implements SalesPersonController {
 		model.addAttribute("businessentities", businessEntityRepository.findAll());
 		model.addAttribute("salesterritories", salesTerritoryRepository.findAll());
 		
-		for(Salesterritory i: salesTerritoryRepository.findAll()) {
-			System.out.println(i.getName());
-		}
-		
 		return "salesperson/add-salesperson";
 	}
 
 	@GetMapping("/salesperson/")
 	public String indexSalesPerson(Model model) {
 		model.addAttribute("salespersons", salesPersonService.findAll());
-		
-		for(Salesperson i: salesPersonService.findAll()) {
-			System.out.println(i.getCommissionpct());
-		}
 		
 		return "salesperson/index";
 	}

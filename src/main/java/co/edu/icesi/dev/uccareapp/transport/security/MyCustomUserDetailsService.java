@@ -1,4 +1,4 @@
-package co.icesi.edu.dev.uccareapp.transport.security;
+package co.edu.icesi.dev.uccareapp.transport.security;
 
 import java.util.Optional;
 

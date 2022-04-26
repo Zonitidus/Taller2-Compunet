@@ -1,4 +1,4 @@
-package co.icesi.edu.dev.uccareapp.transport.security;
+package co.edu.icesi.dev.uccareapp.transport.security;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

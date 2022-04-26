@@ -1,5 +1,7 @@
 package co.edu.icesi.dev.uccareapp.transport.service.implementation;
 
+import java.util.Optional;
+
 import org.springframework.stereotype.Service;
 
 import co.edu.icesi.dev.uccareapp.transport.model.sales.Salesterritory;
@@ -75,6 +77,14 @@ public class SalesTerritoryServiceImp implements SalesTerritoryService{
 		System.out.println(sav);
 		
 		return sav;
+	}
+	
+	public Iterable<Salesterritory> findAll() {
+		return this.salesTerritoryRepo.findAll();
+	}
+	
+	public Optional<Salesterritory> findById(Integer id){
+		return this.salesTerritoryRepo.findById(id);
 	}
 
 }
