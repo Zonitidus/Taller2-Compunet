@@ -3,6 +3,7 @@ package co.edu.icesi.dev.uccareapp.transport.model.sales;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.util.Date;
 
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
@@ -13,6 +14,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.SequenceGenerator;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 /**
  * The persistent class for the salespersonquotahistory database table.
@@ -28,7 +31,8 @@ public class Salespersonquotahistory implements Serializable {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SALESTERRITORYQUOTAHISTORY_ID_GENERATOR")
 	private Integer id;
 
-	private Timestamp modifieddate;
+	@DateTimeFormat(pattern = "yyyy-mm-dd")
+	private Date modifieddate;
 
 	private Integer rowguid;
 
@@ -36,7 +40,7 @@ public class Salespersonquotahistory implements Serializable {
 
 	// bi-directional many-to-one association to Salesperson
 	@ManyToOne
-	@JoinColumn(name = "businessentityid", insertable = false, updatable = false)
+	@JoinColumn(name = "businessentityid", insertable = true, updatable = true)
 	private Salesperson salesperson;
 
 	public Salespersonquotahistory() {
@@ -46,7 +50,7 @@ public class Salespersonquotahistory implements Serializable {
 		return this.id;
 	}
 
-	public Timestamp getModifieddate() {
+	public Date getModifieddate() {
 		return this.modifieddate;
 	}
 
@@ -66,7 +70,7 @@ public class Salespersonquotahistory implements Serializable {
 		this.id = id;
 	}
 
-	public void setModifieddate(Timestamp modifieddate) {
+	public void setModifieddate(Date modifieddate) {
 		this.modifieddate = modifieddate;
 	}
 

@@ -1,5 +1,6 @@
 package co.edu.icesi.dev.uccareapp.transport.controller.implementation;
 
+import java.util.ArrayList;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -101,5 +102,21 @@ public class SalesPersonControllerImp implements SalesPersonController {
 			model.addAttribute("salespersons", salesPersonService.findAll());
 		}
 		return "redirect:/salesperson/";
+	}
+	
+	@GetMapping("/salesperson/show-salesterritory/{id}")
+	public String showSalesterritory(@PathVariable("id") Integer id, Model model) {
+		
+		Optional<Salesterritory> user = this.salesTerritoryRepository.findById(id);
+
+		if (user == null)
+			throw new IllegalArgumentException("Invalid user Id:" + id);
+		
+		ArrayList<Salesterritory> sts = new ArrayList<Salesterritory>();
+		sts.add(user.get());
+		
+		model.addAttribute("salesterritories", sts);
+
+		return "info/salesterritory-info";
 	}
 }

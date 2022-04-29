@@ -1,6 +1,7 @@
 package co.edu.icesi.dev.uccareapp.transport;
 
 
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
@@ -17,11 +18,13 @@ import co.edu.icesi.dev.uccareapp.transport.model.UserApp;
 import co.edu.icesi.dev.uccareapp.transport.model.UserType;
 import co.edu.icesi.dev.uccareapp.transport.model.person.Businessentity;
 import co.edu.icesi.dev.uccareapp.transport.model.person.Countryregion;
+import co.edu.icesi.dev.uccareapp.transport.model.sales.Salesperson;
 import co.edu.icesi.dev.uccareapp.transport.model.sales.Salesterritory;
 import co.edu.icesi.dev.uccareapp.transport.repository.BusinessEntittyRepository;
 import co.edu.icesi.dev.uccareapp.transport.repository.CountryRegionRepository;
 import co.edu.icesi.dev.uccareapp.transport.repository.SalesTerritoryRepository;
 import co.edu.icesi.dev.uccareapp.transport.repository.UserRepository;
+import co.edu.icesi.dev.uccareapp.transport.service.implementation.SalesPersonServiceImp;
 
 @SpringBootApplication
 public class TallerunoApplication {
@@ -37,7 +40,8 @@ public class TallerunoApplication {
 
 	@Bean
 	public CommandLineRunner dummy(UserRepository ur, BusinessEntittyRepository ber, 
-			CountryRegionRepository countryRegionRepo, SalesTerritoryRepository salesTerritoryRepository) {
+			CountryRegionRepository countryRegionRepo, SalesTerritoryRepository salesTerritoryRepository,
+			SalesPersonServiceImp salesPersonService) {
 
 		return (args) -> {
 			UserApp u = new UserApp();
@@ -94,17 +98,28 @@ public class TallerunoApplication {
 			
 			Salesterritory st = new Salesterritory();
 			st.setTerritoryid(1);
-			st.setName("Inlgaterra");
+			st.setName("London");
 			st.setCountryregioncode(regionCodeUK);
 
 			salesTerritoryRepository.save(st);
 			
 			Salesterritory stEdit = new Salesterritory();
 			stEdit.setTerritoryid(2);
-			stEdit.setName("EstadosUnidos");
+			stEdit.setName("Boston");
 			stEdit.setCountryregioncode(regionCodeUSA);
 			
 			salesTerritoryRepository.save(stEdit);
+			
+			
+			Salesperson sp = new Salesperson();
+			sp.setCommissionpct(new BigDecimal(0.24));
+			sp.setBusinessentityid(1);
+			sp.setSalesquota(new BigDecimal(100));
+			
+			sp.setSalesterritory(st);
+			sp.setBusinessentityid(be.getBusinessentityid());
+			
+			salesPersonService.save(sp);
 			
 		};
 

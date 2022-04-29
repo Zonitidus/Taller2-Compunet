@@ -35,7 +35,11 @@
 								<td th:text="${salesperson.businessentityid}"></td>
 								<td th:text="${salesperson.salesquota}"></td>
 								<td th:text="${salesperson.commissionpct}"></td>
-								<td th:text="${salesperson.salesterritory.name}"></td>
+								<td>
+									<a th:href="@{/salesperson/show-salesterritory/{id}(id=${salesperson.salesterritory.territoryid})}">
+										<i th:text="${salesperson.salesterritory.name}"></i>
+									</a>
+								</td>
 								<td><a th:href="@{/salesperson/edit/{id}(id=${salesperson.businessentityid})}" class="btn btn-primary"><i
 											class="fas fa-calendar ml-2"></i></a></td>
 							</tr>

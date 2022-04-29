@@ -2,6 +2,7 @@ package co.edu.icesi.dev.uccareapp.transport.model.sales;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.Date;
 
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
@@ -12,6 +13,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.SequenceGenerator;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 /**
  * The persistent class for the salesterritoryhistory database table.
@@ -27,26 +30,28 @@ public class Salesterritoryhistory implements Serializable {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SALESTERRITORYHISTORY_ID_GENERATOR")
 	private Integer id;
 
-	private Timestamp enddate;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private Date enddate;
 
-	private Timestamp modifieddate;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private Date modifieddate;
 
 	private Integer rowguid;
 
 	// bi-directional many-to-one association to Salesperson
 	@ManyToOne
-	@JoinColumn(name = "businessentityid", insertable = false, updatable = false)
+	@JoinColumn(name = "businessentityid", insertable = true, updatable = true)
 	private Salesperson salesperson;
 
 	// bi-directional many-to-one association to Salesterritory
 	@ManyToOne
-	@JoinColumn(name = "territoryid", insertable = false, updatable = false)
+	@JoinColumn(name = "territoryid", insertable = true, updatable = true)
 	private Salesterritory salesterritory;
 
 	public Salesterritoryhistory() {
 	}
 
-	public Timestamp getEnddate() {
+	public Date getEnddate() {
 		return this.enddate;
 	}
 
@@ -54,7 +59,7 @@ public class Salesterritoryhistory implements Serializable {
 		return this.id;
 	}
 
-	public Timestamp getModifieddate() {
+	public Date getModifieddate() {
 		return this.modifieddate;
 	}
 
@@ -70,7 +75,7 @@ public class Salesterritoryhistory implements Serializable {
 		return this.salesterritory;
 	}
 
-	public void setEnddate(Timestamp enddate) {
+	public void setEnddate(Date enddate) {
 		this.enddate = enddate;
 	}
 
@@ -78,7 +83,7 @@ public class Salesterritoryhistory implements Serializable {
 		this.id = id;
 	}
 
-	public void setModifieddate(Timestamp modifieddate) {
+	public void setModifieddate(Date modifieddate) {
 		this.modifieddate = modifieddate;
 	}
 

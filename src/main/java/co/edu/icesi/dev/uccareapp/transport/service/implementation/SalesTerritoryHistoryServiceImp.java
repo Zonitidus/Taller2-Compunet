@@ -3,6 +3,7 @@ package co.edu.icesi.dev.uccareapp.transport.service.implementation;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -93,5 +94,12 @@ public class SalesTerritoryHistoryServiceImp implements SalesTerritoyHistoryServ
 
 		return this.salesTerritoryHistoryRepository.save(sthModified);
 	}
+	
+	public Iterable<Salesterritoryhistory> findAll(){
+		return this.salesTerritoryHistoryRepository.findAll();
+	}
 
+	public Optional<Salesterritoryhistory> findById(Integer id){
+		return this.salesTerritoryHistoryRepository.findById(id);
+	}
 }

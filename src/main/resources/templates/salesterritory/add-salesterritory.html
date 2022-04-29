@@ -20,22 +20,16 @@
 					<div class="row">
 						<div class="form-group col-md-6">
 
-							<label for="name" class="col-form-label">Name</label> <input type="number"
-								th:field="*{salesquota}" class="form-control" id="name" placeholder="0"> <span
-								th:if="${#fields.hasErrors('salesquota')}" th:errors="*{salesquota}"
+							<label for="name" class="col-form-label">Name</label> <input type="text"
+								th:field="*{name}" class="form-control" id="name" placeholder="0"> <span
+								th:if="${#fields.hasErrors('name')}" th:errors="*{name}"
 								class="text-danger"></span>
-
-							<label for="username" class="col-form-label">Comission</label> <input type="text"
-								th:field="*{commissionpct}" class="form-control" id="commissionpct" placeholder="0">
-							<span th:if="${#fields.hasErrors('commissionpct')}" th:errors="*{commissionpct}"
-								class="text-danger"></span>
-
 
 							<div class="col-form-label">
-								<label for="type" class="col-form-label">Sales Territory</label>
-								<select class="form-control-range" th:field="*{salesterritory}">
-									<option th:each="salesterritory : ${salesterritories}" th:value="${salesterritory.getTerritoryid()}" class="form-control"
-										th:text="${salesterritory.getName()}" th:selected="${salesperson.salesterritory=salesterritory}"></option>
+								<label for="type" class="col-form-label">Country Region Code</label>
+								<select class="form-control-range" th:field="*{countryregioncode}">
+									<option th:each="countryregioncode : ${countryregioncodes}" th:value="${countryregioncode.getCountryregioncode()}" class="form-control"
+										th:text="${countryregioncode.getName()}" th:selected="${salesterritory.countryregioncode=salesterritory}"></option>
 								</select>
 							</div>
 

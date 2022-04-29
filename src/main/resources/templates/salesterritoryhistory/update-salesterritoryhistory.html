@@ -4,7 +4,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="x-ua-compatible" content="ie=edge">
-	<title>Update Sales Territory</title>
+	<title>Update Sales Person</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
@@ -13,27 +13,33 @@
 
 <body>
 	<div class="container my-5">
-		<h2 class="mb-5">Update Sales Territory</h2>
+		<h2 class="mb-5">Update Sales Person</h2>
 		<div class="row">
 			<div class="col-md-5">
-				<form action="#" th:object="${salesterritory}" th:action="@{/salesterritory/edit/{id}(id=${salesterritory.getTerritoryid()})}"
+				<form action="#" th:object="${salesperson}" th:action="@{/salesperson/edit/{id}(id=${salesperson.getBusinessentityid()})}"
 					method="post">
 					<div class="row">
 						<div class="form-group col-md-6">
 
-							<label for="id" class="col-form-label">Territory Id</label> <input type="text" th:field="*{territoryid}"
+							<label for="id" class="col-form-label">Id</label> <input type="text" th:field="*{businessentityid}"
 								class="form-control" id="id" placeholder="Id" disabled>
 
-							<label for="name" class="col-form-label">Name</label> <input type="text"
-								th:field="*{name}" class="form-control" id="name" placeholder="0"> <span
-								th:if="${#fields.hasErrors('name')}" th:errors="*{name}"
+							<label for="name" class="col-form-label">Sales quota</label> <input type="number"
+								th:field="*{salesquota}" class="form-control" id="name" placeholder="0"> <span
+								th:if="${#fields.hasErrors('salesquota')}" th:errors="*{salesquota}"
 								class="text-danger"></span>
 
+							<label for="username" class="col-form-label">Comission</label> <input type="text"
+								th:field="*{commissionpct}" class="form-control" id="commissionpct" placeholder="0">
+							<span th:if="${#fields.hasErrors('commissionpct')}" th:errors="*{commissionpct}"
+								class="text-danger"></span>
+
+
 							<div class="col-form-label">
-								<label for="type" class="col-form-label">Country Region Code</label>
-								<select class="form-control-range" th:field="*{countryregioncode}">
-									<option th:each="countryregioncode : ${countryregioncodes}" th:value="${countryregioncode.getCountryregioncode()}" class="form-control"
-										th:text="${countryregioncode.getName()}" th:selected="${salesterritory.countryregioncode=salesterritory}"></option>
+								<label for="type" class="col-form-label">Sales Territory</label>
+								<select class="form-control-range" th:field="*{salesterritory}">
+									<option th:each="salesterritory : ${salesterritories}" th:value="${salesterritory.getTerritoryid()}" class="form-control"
+										th:text="${salesterritory.getName()}" th:selected="${salesperson.salesterritory=salesterritory}"></option>
 								</select>
 							</div>
 							

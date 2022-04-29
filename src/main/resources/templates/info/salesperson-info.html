@@ -4,7 +4,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="x-ua-compatible" content="ie=edge">
-	<title>Sales Territories</title>
+	<title>Sales Person</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
 		integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
@@ -14,40 +14,32 @@
 </head>
 
 <body>
-	<div th:switch="${salesterritories}" class="container my-5">
+	<div th:switch="${salespersons}" class="container my-5">
 		<div class="row">
 			<div class="col-md-10">
-				<h2 th:case="null">No Sales Territories yet!</h2>
+				<h2 th:case="null">No Sales Persons yet!</h2>
 				<div th:case="*">
-					<h2 class="my-5">Sales Territories</h2>
+					<h2 class="my-5">Sales Person</h2>
 					<table class="table table-striped table-responsive-md">
 						<thead>
 							<tr>
-								<th>Territory Id</th>
-								<th>Name</th>
-								<th>Country Region Code</th>
-								<th>Edit</th>
+								<th>Sales Person Id</th>
+								<th>Sales Quota</th>
+								<th>Sales Commision</th>
+								<th>Sales Territory</th>
 							</tr>
 						</thead>
 						<tbody>
-							<tr th:each="salesterritory : ${salesterritories}">
-								<td th:text="${salesterritory.territoryid}"></td>
-								<td th:text="${salesterritory.name}"></td>
-								<td>
-									<a
-										th:href="@{/salesterritory/show-countryregion/{id}(id=${salesterritory.countryregioncode})}">
-										<i th:text="${salesterritory.countryregioncode}"></i>
-									</a>
-								</td>
-								<td><a th:href="@{/salesterritory/edit/{id}(id=${salesterritory.territoryid})}"
-										class="btn btn-primary"><i class="fas fa-calendar ml-2"></i></a></td>
+							<tr th:each="salesperson : ${salespersons}">
+								<td th:text="${salesperson.businessentityid}"></td>
+								<td th:text="${salesperson.salesquota}"></td>
+								<td th:text="${salesperson.commissionpct}"></td>
+								<td th:text="${salesperson.salesterritory.name}"></td>
 							</tr>
 						</tbody>
 					</table>
 				</div>
-				<p class="my-5">
-					<a href="/salesterritory/add" class="btn btn-primary"><i class="fas fa-user-plus ml-2"></i></a>
-				</p>
+
 			</div>
 		</div>
 		<p>

@@ -1,5 +1,6 @@
 package co.edu.icesi.dev.uccareapp.transport.controller.implementation;
 
+import java.util.ArrayList;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import co.edu.icesi.dev.uccareapp.transport.controller.interfaces.SalesTerritoryController;
+import co.edu.icesi.dev.uccareapp.transport.model.person.Countryregion;
 import co.edu.icesi.dev.uccareapp.transport.model.sales.Salespersonquotahistory;
 import co.edu.icesi.dev.uccareapp.transport.model.sales.Salesterritory;
 import co.edu.icesi.dev.uccareapp.transport.repository.CountryRegionRepository;
@@ -39,9 +41,9 @@ public class SalesTerritoryControllerImp implements SalesTerritoryController {
 
 	@GetMapping("/salesterritory/")
 	public String indexSalesPerson(Model model) {
-		model.addAttribute("salespersonquotahistories", salesTerritoryServiceImp.findAll());
+		model.addAttribute("salesterritories", salesTerritoryServiceImp.findAll());
 
-		return "salespersonquotahistory/index";
+		return "salesterritory/index";
 	}
 
 	@PostMapping("/salesterritory/add")
@@ -67,7 +69,7 @@ public class SalesTerritoryControllerImp implements SalesTerritoryController {
 		if (user == null)
 			throw new IllegalArgumentException("Invalid user Id:" + id);
 		model.addAttribute("salesterritory", user.get());
-		model.addAttribute("countryregionscode", countryRegionRepo.findAll());
+		model.addAttribute("countryregioncodes", countryRegionRepo.findAll());
 
 		return "salesterritory/update-salesterritory";
 	}
@@ -88,5 +90,21 @@ public class SalesTerritoryControllerImp implements SalesTerritoryController {
 			model.addAttribute("salesterritories", salesTerritoryServiceImp.findAll());
 		}
 		return "redirect:/salesterritory/";
+	}
+	
+	@GetMapping("/salesterritory/show-countryregion/{id}")
+	public String showSalesterritory(@PathVariable("id") String id, Model model) {
+		
+		Optional<Countryregion> user = this.countryRegionRepo.findById(id);
+
+		if (user == null)
+			throw new IllegalArgumentException("Invalid user Id:" + id);
+		
+		ArrayList<Countryregion> sts = new ArrayList<Countryregion>();
+		sts.add(user.get());
+		
+		model.addAttribute("countryregioncodes", sts);
+
+		return "info/countryregioncode-info";
 	}
 }

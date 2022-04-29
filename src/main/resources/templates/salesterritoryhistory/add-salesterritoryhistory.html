@@ -4,7 +4,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="x-ua-compatible" content="ie=edge">
-	<title>Add Sales Person</title>
+	<title>Add Sales Territory History</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
@@ -13,11 +13,10 @@
 
 <body>
 	<div class="container my-5">
-		<h2 class="mb-5">Add Sales Person Quota History</h2>
+		<h2 class="mb-5">Add Sales Territory History</h2>
 		<div class="row">
 			<div class="col-md-5">
-				<form action="#" th:object="${salespersonquotahistory}" th:action="@{/salespersonquotahistory/add}"
-					method="post">
+				<form action="#" th:object="${salesterritoryhistory}" th:action="@{/salesterritoryhistory/add}" method="post">
 					<div class="row">
 						<div class="form-group col-md-6">
 
@@ -27,21 +26,32 @@
 									<option th:each="salesperson : ${salespersons}"
 										th:value="${salesperson.getBusinessentityid()}" class="form-control"
 										th:text="${salesperson.getBusinessentityid()}"
-										th:selected="${salespersonquotahistory.salesperson=salesperson}"></option>
+										th:selected="${salesterritoryhistory.salesperson=salesperson}"></option>
 								</select>
 							</div>
 
 							<div class="col-form-label">
-								<label for="date" class="col-form-label">Date</label> <input type="date"
+								<label for="date" class="col-form-label">Start Date</label> <input type="date"
 									th:field="*{modifieddate}" class="form-control" id="modifieddate"
 									placeholder="Date"> <span th:if="${#fields.hasErrors('modifieddate')}"
 									th:errors="*{modifieddate}" class="text-danger"></span>
 							</div>
 
-							<label for="name" class="col-form-label">Sales quota</label> <input type="number"
-								th:field="*{salesquota}" class="form-control" id="name" placeholder="0"> <span
-								th:if="${#fields.hasErrors('salesquota')}" th:errors="*{salesquota}"
-								class="text-danger"></span>
+							<div class="col-form-label">
+								<label for="date" class="col-form-label">End Date</label> <input type="date"
+									th:field="*{enddate}" class="form-control" id="enddate"
+									placeholder="Date"> <span th:if="${#fields.hasErrors('enddate')}"
+									th:errors="*{enddate}" class="text-danger"></span>
+							</div>
+
+
+							<div class="col-form-label">
+								<label for="type" class="col-form-label">Sales Territory</label>
+								<select class="form-control-range" th:field="*{salesterritory}">
+									<option th:each="salesterritory : ${salesterritories}" th:value="${salesterritory.getTerritoryid()}" class="form-control"
+										th:text="${salesterritory.getName()}" th:selected="${salesterritoryhistory.salesterritory=salesterritory}"></option>
+								</select>
+							</div>
 
 						</div>
 						<div class="row">

@@ -66,6 +66,11 @@ public class SalesPersonQuotaHistoryControllerImp implements SalesQuotaHistoryCo
 				System.out.println("****************fffffffffffffff" + "*");
 				return "/salespersonquotahistory/add-salespersonquotahistory";
 			}
+			
+			System.out.println(spqh.getSalesperson().getBusinessentityid());
+			System.out.println(spqh.getSalesperson().getSalesquota());
+			
+			
 			spqh = salesPersonQuotaHistoryService.save(spqh);
 			model.addAttribute("id", spqh.getId());
 		}
@@ -82,7 +87,7 @@ public class SalesPersonQuotaHistoryControllerImp implements SalesQuotaHistoryCo
 		model.addAttribute("salespersonquotahistory", user.get());
 		model.addAttribute("salespersons", salesPersonRepo.findAll());
 
-		return "salesperson/update-salesperson";
+		return "salespersonquotahistory/update-salespersonquotahistory";
 	}
 
 	@PostMapping("/salespersonquotahistory/edit/{id}")
