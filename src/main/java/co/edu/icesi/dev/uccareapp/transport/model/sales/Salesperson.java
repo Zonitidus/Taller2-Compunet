@@ -14,6 +14,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
+import javax.validation.constraints.DecimalMax;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.NotBlank;
 
 /**
  * The persistent class for the salesperson database table.
@@ -30,7 +33,9 @@ public class Salesperson implements Serializable {
 	private Integer businessentityid;
 
 	private BigDecimal bonus;
-
+	
+	@DecimalMin(value = "0.0", inclusive = false, message = "Value must be greater than 0 and less than 1")
+	@DecimalMax(value = "1", inclusive = true, message = "Value must be greater than 0 and less than 1")
 	private BigDecimal commissionpct;
 
 	private Timestamp modifieddate;
@@ -39,6 +44,7 @@ public class Salesperson implements Serializable {
 
 	private BigDecimal saleslastyear;
 
+	@DecimalMin(value = "0.0", inclusive = false, message = "Value must be greater than 0")
 	private BigDecimal salesquota;
 
 	private BigDecimal salesytd;

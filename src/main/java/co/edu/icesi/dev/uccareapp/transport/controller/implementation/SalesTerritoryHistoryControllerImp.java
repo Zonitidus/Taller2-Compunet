@@ -57,8 +57,22 @@ public class SalesTerritoryHistoryControllerImp implements SalesTerritoryHistory
 		if (!action.equals("Cancel")) {
 			if (bindingResult.hasErrors()) {
 				System.out.println("****************fffffffffffffff" + "*");
-				return "/salesterritoryhistory/add";
+
+				model.addAttribute("salesterritories", this.salesTerritoryService.findAll());
+				model.addAttribute("salespersons", this.salesPersonService.findAll());
+
+				return "/salesterritoryhistory/add-salesterritoryhistory";
 			}
+
+			if (sth.getModifieddate().compareTo(sth.getEnddate()) >= 0) {
+				model.addAttribute("invalidDate", true);
+				
+				model.addAttribute("salesterritories", this.salesTerritoryService.findAll());
+				model.addAttribute("salespersons", this.salesPersonService.findAll());
+				
+				return "/salesterritoryhistory/add-salesterritoryhistory";
+			}
+
 			sth = this.salesTerritoryHistoryService.save(sth);
 			System.out.println("Id" + sth.getId());
 
@@ -91,6 +105,9 @@ public class SalesTerritoryHistoryControllerImp implements SalesTerritoryHistory
 			@RequestParam(value = "action", required = true) String action) {
 		if (action != null && !action.equals("Cancel")) {
 			if (bindingResult.hasErrors()) {
+				model.addAttribute("salesterritories", this.salesTerritoryService.findAll());
+				model.addAttribute("salespersons", this.salesPersonService.findAll());
+
 				return "/salesterritoryhistory/update-salesterritoryhistory";
 			}
 
@@ -105,31 +122,31 @@ public class SalesTerritoryHistoryControllerImp implements SalesTerritoryHistory
 
 	@GetMapping("/salesterritoryhistory/show-salesperson/{id}")
 	public String showSalesperson(@PathVariable("id") Integer id, Model model) {
-		
+
 		Optional<Salesperson> user = this.salesPersonService.findById(id);
 
 		if (user == null)
 			throw new IllegalArgumentException("Invalid user Id:" + id);
-		
+
 		ArrayList<Salesperson> sps = new ArrayList<Salesperson>();
 		sps.add(user.get());
-		
+
 		model.addAttribute("salespersons", sps);
 
 		return "info/salesperson-info";
 	}
-	
+
 	@GetMapping("/salesterritoryhistory/show-salesterritory/{id}")
 	public String showSalesterritory(@PathVariable("id") Integer id, Model model) {
-		
+
 		Optional<Salesterritory> user = this.salesTerritoryService.findById(id);
 
 		if (user == null)
 			throw new IllegalArgumentException("Invalid user Id:" + id);
-		
+
 		ArrayList<Salesterritory> sts = new ArrayList<Salesterritory>();
 		sts.add(user.get());
-		
+
 		model.addAttribute("salesterritories", sts);
 
 		return "info/salesterritory-info";

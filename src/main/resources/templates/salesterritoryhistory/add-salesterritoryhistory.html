@@ -16,7 +16,8 @@
 		<h2 class="mb-5">Add Sales Territory History</h2>
 		<div class="row">
 			<div class="col-md-5">
-				<form action="#" th:object="${salesterritoryhistory}" th:action="@{/salesterritoryhistory/add}" method="post">
+				<form action="#" th:object="${salesterritoryhistory}" th:action="@{/salesterritoryhistory/add}"
+					method="post">
 					<div class="row">
 						<div class="form-group col-md-6">
 
@@ -39,18 +40,25 @@
 
 							<div class="col-form-label">
 								<label for="date" class="col-form-label">End Date</label> <input type="date"
-									th:field="*{enddate}" class="form-control" id="enddate"
-									placeholder="Date"> <span th:if="${#fields.hasErrors('enddate')}"
-									th:errors="*{enddate}" class="text-danger"></span>
+									th:field="*{enddate}" class="form-control" id="enddate" placeholder="Date"> <span
+									th:if="${#fields.hasErrors('enddate')}" th:errors="*{enddate}"
+									class="text-danger"></span>
 							</div>
 
 
 							<div class="col-form-label">
 								<label for="type" class="col-form-label">Sales Territory</label>
 								<select class="form-control-range" th:field="*{salesterritory}">
-									<option th:each="salesterritory : ${salesterritories}" th:value="${salesterritory.getTerritoryid()}" class="form-control"
-										th:text="${salesterritory.getName()}" th:selected="${salesterritoryhistory.salesterritory=salesterritory}"></option>
+									<option th:each="salesterritory : ${salesterritories}"
+										th:value="${salesterritory.getTerritoryid()}" class="form-control"
+										th:text="${salesterritory.getName()}"
+										th:selected="${salesterritoryhistory.salesterritory=salesterritory}"></option>
 								</select>
+								
+								<span th:if="${invalidDate==true}" class="text-danger">
+									End date must be greater than start date
+								</span>
+								
 							</div>
 
 						</div>

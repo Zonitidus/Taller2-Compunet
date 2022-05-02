@@ -34,7 +34,7 @@ public class SalesTerritoryControllerImp implements SalesTerritoryController {
 	public String addSalesPerson(Model model) {
 
 		model.addAttribute("salesterritory", new Salesterritory());
-		model.addAttribute("countryregionscode", countryRegionRepo.findAll());
+		model.addAttribute("countryregioncodes", countryRegionRepo.findAll());
 
 		return "salesterritory/add-salesterritory";
 	}
@@ -52,6 +52,7 @@ public class SalesTerritoryControllerImp implements SalesTerritoryController {
 
 		if (!action.equals("Cancel")) {
 			if (bindingResult.hasErrors()) {
+				model.addAttribute("countryregioncodes", countryRegionRepo.findAll());
 				System.out.println("****************fffffffffffffff" + "*");
 				return "/salesterritory/add-salesterritory";
 			}
@@ -80,6 +81,7 @@ public class SalesTerritoryControllerImp implements SalesTerritoryController {
 			@RequestParam(value = "action", required = true) String action) {
 		if (action != null && !action.equals("Cancel")) {
 			if (bindingResult.hasErrors()) {
+				model.addAttribute("countryregioncodes", countryRegionRepo.findAll());
 				return "/salesterritory/update-salesterritory";
 			}
 

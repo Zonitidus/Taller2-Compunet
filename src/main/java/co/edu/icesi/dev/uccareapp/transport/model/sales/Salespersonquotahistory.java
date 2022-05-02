@@ -14,6 +14,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.SequenceGenerator;
+import javax.validation.constraints.DecimalMax;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.PastOrPresent;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -31,11 +35,15 @@ public class Salespersonquotahistory implements Serializable {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SALESTERRITORYQUOTAHISTORY_ID_GENERATOR")
 	private Integer id;
 
-	@DateTimeFormat(pattern = "yyyy-mm-dd")
+	@PastOrPresent(message = "Date can't be >= today")
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	@NotNull
 	private Date modifieddate;
 
 	private Integer rowguid;
 
+	@NotNull
+	@DecimalMin(value = "0.0", inclusive = false, message = "Value must be greater than 0")
 	private BigDecimal salesquota;
 
 	// bi-directional many-to-one association to Salesperson

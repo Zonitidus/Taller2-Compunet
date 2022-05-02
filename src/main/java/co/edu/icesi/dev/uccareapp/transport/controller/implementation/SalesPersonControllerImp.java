@@ -64,8 +64,12 @@ public class SalesPersonControllerImp implements SalesPersonController {
 
 		if (!action.equals("Cancel")) {
 			if (bindingResult.hasErrors()) {
+				
+				model.addAttribute("businessentities", businessEntityRepository.findAll());
+				model.addAttribute("salesterritories", salesTerritoryRepository.findAll());
+				
 				System.out.println("****************fffffffffffffff" + "*");
-				return "/salesperson/add";
+				return "/salesperson/add-salesperson";
 			}
 			sp = salesPersonService.save(sp);
 			System.out.println("**********" + sp.getBusinessentityid());
@@ -91,6 +95,10 @@ public class SalesPersonControllerImp implements SalesPersonController {
 			@PathVariable("id") Integer businessentityid, @RequestParam(value = "action", required = true) String action) {
 		if (action != null && !action.equals("Cancel")) {
 			if (bindingResult.hasErrors()) {
+				
+				model.addAttribute("businessentities", businessEntityRepository.findAll());
+				model.addAttribute("salesterritories", salesTerritoryRepository.findAll());
+				
 				return "/salesperson/update-salesperson";
 			}
 			

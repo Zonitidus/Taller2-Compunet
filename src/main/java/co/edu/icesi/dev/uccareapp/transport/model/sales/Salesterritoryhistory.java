@@ -13,6 +13,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.SequenceGenerator;
+import javax.validation.constraints.Future;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.PastOrPresent;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -30,9 +33,12 @@ public class Salesterritoryhistory implements Serializable {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SALESTERRITORYHISTORY_ID_GENERATOR")
 	private Integer id;
 
+	@NotNull
+	@PastOrPresent(message= "End date must be less or equals to the current date")
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date enddate;
-
+	
+	@NotNull
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date modifieddate;
 

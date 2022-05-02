@@ -63,6 +63,7 @@ public class SalesPersonQuotaHistoryControllerImp implements SalesQuotaHistoryCo
 
 		if (!action.equals("Cancel")) {
 			if (bindingResult.hasErrors()) {
+				model.addAttribute("salespersons", salesPersonRepo.findAll());
 				System.out.println("****************fffffffffffffff" + "*");
 				return "/salespersonquotahistory/add-salespersonquotahistory";
 			}
@@ -96,6 +97,7 @@ public class SalesPersonQuotaHistoryControllerImp implements SalesQuotaHistoryCo
 			@RequestParam(value = "action", required = true) String action) {
 		if (action != null && !action.equals("Cancel")) {
 			if (bindingResult.hasErrors()) {
+				model.addAttribute("salespersons", salesPersonRepo.findAll());
 				return "/salespersonquotahistory/update-salespersonquotahistory";
 			}
 
