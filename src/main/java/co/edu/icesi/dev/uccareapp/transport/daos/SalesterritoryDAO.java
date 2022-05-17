@@ -5,6 +5,7 @@ import java.util.Optional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.transaction.Transactional;
 
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Repository;
@@ -20,27 +21,32 @@ public class SalesterritoryDAO implements ISalesterritoryDAO {
 	private EntityManager entityManager;
 
 	@Override
+	@Transactional
 	public void save(Salesterritory entity) {
 		entityManager.persist(entity);
 	}
 
 	@Override
+	@Transactional
 	public void update(Salesterritory entity) {
 		entityManager.merge(entity);
 	}
 
 	@Override
+	@Transactional
 	public Optional<Salesterritory> findById(Integer id) {
 		return Optional.of(entityManager.find(Salesterritory.class, id));
 	}
 
 	@Override
+	@Transactional
 	public Iterable<Salesterritory> findAll() {
 		Query query = entityManager.createQuery("SELECT st FROM Salesterritory st");
 		return query.getResultList();
 	}
 
 	@Override
+	@Transactional
 	public Iterable<Salesterritory> customQuery() {
 
 		/*Mostrar el listado territorios de ventas para los territorios que tienen al menos dos 
