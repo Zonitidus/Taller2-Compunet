@@ -55,7 +55,7 @@ public class SalesterritoryDAO implements ISalesterritoryDAO {
 		Query query = entityManager.createQuery(
 				"SELECT st FROM Salesterritory st "
 				+ "WHERE (SELECT COUNT(sp) FROM Salesperson sp "
-				+ "WHERE sp MEMBER OF st.salespersons AND sp.salesquota>10000) > 1) >= 2");
+				+ "WHERE sp MEMBER OF st.salespersons AND sp.salesquota>10000)>1");
 		return query.getResultList();
 	}
 
