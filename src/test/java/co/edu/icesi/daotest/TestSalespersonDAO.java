@@ -128,8 +128,6 @@ class TestSalespersonDAO {
 
 		this.entityManager.persist(sp);
 
-		this.printSalespersons();
-
 		Salesperson spfind = this.salespersondao.findById(19).get();
 
 		Assertions.assertAll(() -> assertTrue(sp.getCommissionpct().compareTo(spfind.getCommissionpct()) == 0),
@@ -299,12 +297,14 @@ class TestSalespersonDAO {
 		this.entityManager.persist(sp2);
 		this.entityManager.persist(sp3);
 
+		this.printSalespersons();
+		
 		Salesterritoryhistory sth = new Salesterritoryhistory();
 
-		sth.setEnddate(Timestamp.valueOf(LocalDateTime.now().minusDays(2)));
-		sth.setModifieddate(Timestamp.valueOf(LocalDateTime.now().minusDays(4)));
+		sth.setEnddate(Timestamp.valueOf(LocalDateTime.now().minusDays(11)));
+		sth.setModifieddate(Timestamp.valueOf(LocalDateTime.now().minusDays(12)));
 		sth.setSalesperson(this.entityManager.find(Salesperson.class, 13));
-		sth.setSalesterritory(this.entityManager.find(Salesterritory.class, 1));
+		sth.setSalesterritory(this.entityManager.find(Salesterritory.class, 2));
 
 		Salesterritoryhistory sth2 = new Salesterritoryhistory();
 
@@ -315,25 +315,22 @@ class TestSalespersonDAO {
 
 		this.entityManager.persist(sth);
 
-//		System.out.println("Salespersons");
-//		this.printSalespersons();
-//
-//		System.out.println("Salesterritories");
-//		this.printSalesterritory();
-//
-//		System.out.println("Salesterritoryhistory");
-//		this.printSalesterritoryhistory();
-
 		Date minD = Timestamp.valueOf(LocalDateTime.now().minusDays(5));
 		Date maxD = Timestamp.valueOf(LocalDateTime.now().minusDays(1));
 
-		ArrayList<Salesperson> sps = (ArrayList<Salesperson>) this.salespersondao.findBySalesquota(new BigDecimal(2));
+		ArrayList<Salesperson> sps = (ArrayList<Salesperson>) 
+				this.salespersondao.customQuery(this.entityManager.find(Salesterritory.class, 2), minD, maxD);
 
 		System.out.println("Customquery --->");
 		for (Salesperson sptemp : sps) {
 			System.out.println("Salesperson id : " + sptemp.getBusinessentityid());
 		}
 		
+		Assertions.assertAll(
+				() -> assertTrue(sps.contains(this.entityManager.find(Salesperson.class, 14))), 
+				() -> assertFalse(sps.contains(this.entityManager.find(Salesperson.class, 13))),
+				() -> assertFalse(sps.contains(this.entityManager.find(Salesperson.class, 15))), 
+				() -> assertTrue(sps.size() == 1));
 
 	}
 
