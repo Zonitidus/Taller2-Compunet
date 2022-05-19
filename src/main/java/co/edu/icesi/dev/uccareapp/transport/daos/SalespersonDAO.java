@@ -85,7 +85,7 @@ public class SalespersonDAO implements ISalespersonDAO {
 				+ "WHERE (SELECT COUNT(sth) FROM Salesterritoryhistory sth "
 				+ "WHERE sth MEMBER OF sp.salespterritoryhisotries "
 				+ "AND sth.startdate>=minDate "
-				+ "AND sth.enddate>=maxDate) >= 1 "
+				+ "AND sth.enddate<=maxDate)>=1 "
 				+ "AND stId = sp.salesterritory.territoryid"
 				+ "ORDER BY sp.salesquota ASC");
 
