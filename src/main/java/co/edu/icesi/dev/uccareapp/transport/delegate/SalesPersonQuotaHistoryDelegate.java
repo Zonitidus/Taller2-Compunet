@@ -20,9 +20,9 @@ public class SalesPersonQuotaHistoryDelegate implements ISalesPersonQuotaHistory
 	}
 	
 	@Override
-	public Salespersonquotahistory save(Salespersonquotahistory spqh) {
+	public void save(Salespersonquotahistory spqh) {
 		// TODO Auto-generated method stub
-		return restTemplate.postForObject("http://localhost:8080/salesPersonQuotaHistory/add", spqh, Salespersonquotahistory.class);
+		restTemplate.postForObject("http://localhost:8080/salesPersonQuotaHistory/add", spqh, Salespersonquotahistory.class);
 	}
 
 	@Override

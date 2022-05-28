@@ -8,6 +8,8 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import co.edu.icesi.dev.uccareapp.transport.daos.ISalesterritoryHistoryDAO;
+import co.edu.icesi.dev.uccareapp.transport.daos.SalesterritoryhistoryDAO;
 import co.edu.icesi.dev.uccareapp.transport.model.sales.Salesterritoryhistory;
 import co.edu.icesi.dev.uccareapp.transport.repository.BusinessEntittyRepository;
 import co.edu.icesi.dev.uccareapp.transport.repository.SalesPersonRepository;
@@ -22,16 +24,18 @@ public class SalesTerritoryHistoryServiceImp implements SalesTerritoyHistoryServ
 	private SalesTerritoryRepository salesTerritoryRepository;
 	private BusinessEntittyRepository businessEntityRepository;
 	private SalesPersonRepository salesPersonRepository;
+	private ISalesterritoryHistoryDAO salesterritoryhistoryDAO;
 
 	@Autowired
 	public SalesTerritoryHistoryServiceImp(SalesTerritoryHistoryRepository salesTerritoryHistoryRepository,
 			SalesTerritoryRepository salesTerritoryRepository, BusinessEntittyRepository businessEntityRepository,
-			SalesPersonRepository salesPersonRepository) {
+			SalesPersonRepository salesPersonRepository,ISalesterritoryHistoryDAO salesterritoryhistoryDAO) {
 
 		this.salesTerritoryHistoryRepository = salesTerritoryHistoryRepository;
 		this.salesTerritoryRepository = salesTerritoryRepository;
 		this.businessEntityRepository = businessEntityRepository;
 		this.salesPersonRepository = salesPersonRepository;
+		this.salesterritoryhistoryDAO = salesterritoryhistoryDAO;
 	}
 
 	@Override
@@ -96,10 +100,29 @@ public class SalesTerritoryHistoryServiceImp implements SalesTerritoyHistoryServ
 	}
 	
 	public Iterable<Salesterritoryhistory> findAll(){
-		return this.salesTerritoryHistoryRepository.findAll();
+		return salesterritoryhistoryDAO.findAll();
 	}
 
 	public Optional<Salesterritoryhistory> findById(Integer id){
-		return this.salesTerritoryHistoryRepository.findById(id);
+		return salesterritoryhistoryDAO.findById(id);
+	}
+
+	@Override
+	public Iterable<Salesterritoryhistory> findBySalespersonid(Integer salespersonid) {
+		// TODO Auto-generated method stub
+		return salesterritoryhistoryDAO.findBySalespersonid(salespersonid);
+	}
+
+	@Override
+	public Iterable<Salesterritoryhistory> findBySalesterritoryid(Integer salesterritoryid) {
+		// TODO Auto-generated method stub
+		return salesterritoryhistoryDAO.findBySalesterritoryid(salesterritoryid);
+	}
+
+	@Override
+	public void delete(Integer id) {
+		// TODO Auto-generated method stub
+		Salesterritoryhistory sth = salesterritoryhistoryDAO.findById(id).get();
+		salesterritoryhistoryDAO.delete(sth);
 	}
 }

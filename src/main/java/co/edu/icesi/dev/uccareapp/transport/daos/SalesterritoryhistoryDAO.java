@@ -56,4 +56,10 @@ public class SalesterritoryhistoryDAO implements ISalesterritoryHistoryDAO {
 		return query.getResultList();
 	}
 
+	@Override
+	public void delete(Salesterritoryhistory entity) {
+		// TODO Auto-generated method stub
+		entityManager.remove(entity);
+	}
+
 }

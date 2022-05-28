@@ -9,9 +9,9 @@ public interface ISalesterritoryHistoryDAO {
 
 	public void save(Salesterritoryhistory entity);
 	public void update(Salesterritoryhistory entity);
+	public void delete(Salesterritoryhistory entity);
 	public Optional<Salesterritoryhistory> findById(Integer id);
 	public Iterable<Salesterritoryhistory> findAll();
-	
 	public Iterable<Salesterritoryhistory> findBySalespersonid(Integer salespersonid);
 	public Iterable<Salesterritoryhistory> findBySalesterritoryid(Integer salesterritoryid);
 }

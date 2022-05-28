@@ -6,7 +6,7 @@ import java.util.Optional;
 import co.edu.icesi.dev.uccareapp.transport.model.sales.Salespersonquotahistory;
 
 public interface ISalesPersonQuotaHistoryDelegate {
-	public Salespersonquotahistory save(Salespersonquotahistory spqh);
+	public void save(Salespersonquotahistory spqh);
 	public void edit(Salespersonquotahistory spqh); 
 	public void delete(Integer id);
 	public Salespersonquotahistory findByID(Integer id);
