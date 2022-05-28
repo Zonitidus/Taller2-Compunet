@@ -9,9 +9,9 @@ public interface ISalespersonquotahistoryDAO {
 
 	public void save(Salespersonquotahistory entity);
 	public void update(Salespersonquotahistory entity);
+	public void delete(Salespersonquotahistory entity);
 	public Optional<Salespersonquotahistory> findById(Integer id);
 	public Iterable<Salespersonquotahistory> findAll();
-	
 	public Iterable<Salespersonquotahistory> findBySalespersonid(Integer salespersonid);
 	public Iterable<Salespersonquotahistory> findBySalesquota(BigDecimal salesquota);
 }

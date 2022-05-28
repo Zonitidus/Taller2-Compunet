@@ -4,9 +4,12 @@ import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import co.edu.icesi.dev.uccareapp.transport.daos.SalespersonquotahistoryDAO;
 import co.edu.icesi.dev.uccareapp.transport.model.sales.Salespersonquotahistory;
 import co.edu.icesi.dev.uccareapp.transport.repository.SalesPersonQuotaHistoryRepository;
 import co.edu.icesi.dev.uccareapp.transport.repository.SalesPersonRepository;
@@ -17,12 +20,15 @@ public class SalesPersonQuotaHistoryServiceImp implements SalesPersonQuotaHistor
 
 	private SalesPersonQuotaHistoryRepository salesPersonQuotaHistoryRepo;
 	private SalesPersonRepository salesPersonRepo;
+	private SalespersonquotahistoryDAO salespersonquotahistoryDAO;
 
+	@Autowired
 	public SalesPersonQuotaHistoryServiceImp(SalesPersonQuotaHistoryRepository salesPersonQuotaHistoryRepo,
-			SalesPersonRepository salesPersonRepo) {
+			SalesPersonRepository salesPersonRepo,SalespersonquotahistoryDAO salespersonquotahistoryDAO) {
 
 		this.salesPersonQuotaHistoryRepo = salesPersonQuotaHistoryRepo;
 		this.salesPersonRepo = salesPersonRepo;
+		this.salespersonquotahistoryDAO = salespersonquotahistoryDAO;
 	}
 
 	@Override
@@ -74,6 +80,37 @@ public class SalesPersonQuotaHistoryServiceImp implements SalesPersonQuotaHistor
 		spqhModified.setSalesquota(spqh.getSalesquota());
 
 		return this.salesPersonQuotaHistoryRepo.save(spqhModified);
+	}
+
+	@Override
+	public Optional<Salespersonquotahistory> findByID(Integer id) {
+		// TODO Auto-generated method stub
+		return salespersonquotahistoryDAO.findById(id);
+	}
+
+	@Override
+	public Iterable<Salespersonquotahistory> findAll() {
+		// TODO Auto-generated method stub
+		return salespersonquotahistoryDAO.findAll();
+	}
+
+	@Override
+	public Iterable<Salespersonquotahistory> findBySalespersonid(Integer salespersonid) {
+		// TODO Auto-generated method stub
+		return salespersonquotahistoryDAO.findBySalespersonid(salespersonid);
+	}
+
+	@Override
+	public Iterable<Salespersonquotahistory> findBySalesquota(BigDecimal salesquota) {
+		// TODO Auto-generated method stub
+		return salespersonquotahistoryDAO.findBySalesquota(salesquota);
+	}
+
+	@Override
+	public void delete(Integer id) {
+		// TODO Auto-generated method stub
+		Salespersonquotahistory spqh = salespersonquotahistoryDAO.findById(id).get();
+		salespersonquotahistoryDAO.delete(spqh);
 	}
 
 }

@@ -57,4 +57,10 @@ public class SalespersonquotahistoryDAO implements ISalespersonquotahistoryDAO {
 		return query.getResultList();
 	}
 
+	@Override
+	public void delete(Salespersonquotahistory entity) {
+		// TODO Auto-generated method stub
+		entityManager.remove(entityManager.contains(entity) ? entity : entityManager.merge(entity));
+	}
+
 }
