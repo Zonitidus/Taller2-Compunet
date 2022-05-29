@@ -2,8 +2,10 @@ package co.edu.icesi.dev.uccareapp.transport.service.implementation;
 
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import co.edu.icesi.dev.uccareapp.transport.daos.SalesterritoryDAO;
 import co.edu.icesi.dev.uccareapp.transport.model.sales.Salesterritory;
 import co.edu.icesi.dev.uccareapp.transport.repository.CountryRegionRepository;
 import co.edu.icesi.dev.uccareapp.transport.repository.SalesTerritoryRepository;
@@ -15,11 +17,15 @@ public class SalesTerritoryServiceImp implements SalesTerritoryService{
 	private CountryRegionRepository coutrRegionRepo;
 	private SalesTerritoryRepository salesTerritoryRepo;
 	
+	private SalesterritoryDAO salesterritorydao;
+	
+	@Autowired
 	public SalesTerritoryServiceImp(CountryRegionRepository coutrRegionRepo,
-			SalesTerritoryRepository salesTerritoryRepo) {
+			SalesTerritoryRepository salesTerritoryRepo, SalesterritoryDAO salesterritorydao) {
 		super();
 		this.coutrRegionRepo = coutrRegionRepo;
 		this.salesTerritoryRepo = salesTerritoryRepo;
+		this.salesterritorydao = salesterritorydao;
 	}
 
 	@Override
@@ -79,12 +85,20 @@ public class SalesTerritoryServiceImp implements SalesTerritoryService{
 		return sav;
 	}
 	
+	@Override
 	public Iterable<Salesterritory> findAll() {
-		return this.salesTerritoryRepo.findAll();
+		return this.salesterritorydao.findAll();
 	}
 	
+	@Override
 	public Optional<Salesterritory> findById(Integer id){
-		return this.salesTerritoryRepo.findById(id);
+		return this.salesterritorydao.findById(id);
+	}
+
+	@Override
+	public Iterable<Salesterritory> customQuery() {
+		// TODO Auto-generated method stub
+		return this.salesterritorydao.customQuery();
 	}
 
 }

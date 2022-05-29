@@ -1,12 +1,15 @@
 package co.edu.icesi.dev.uccareapp.transport.service.implementation;
 
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import co.edu.icesi.dev.uccareapp.transport.daos.SalespersonDAO;
 import co.edu.icesi.dev.uccareapp.transport.model.sales.Salesperson;
+import co.edu.icesi.dev.uccareapp.transport.model.sales.Salesterritory;
 import co.edu.icesi.dev.uccareapp.transport.repository.BusinessEntittyRepository;
 import co.edu.icesi.dev.uccareapp.transport.repository.EmployeeRepository;
 import co.edu.icesi.dev.uccareapp.transport.repository.SalesPersonRepository;
@@ -21,14 +24,17 @@ public class SalesPersonServiceImp implements SalesPersonService {
 	private SalesPersonRepository salesPersonRepo;
 	private SalesTerritoryRepository salesTerritoryRepo;
 	
+	private SalespersonDAO salespersondao;
+	
 	@Autowired
 	public SalesPersonServiceImp(BusinessEntittyRepository businessEntityRepo, EmployeeRepository employeeRepo,
-			SalesPersonRepository salesPersonRepo, SalesTerritoryRepository salesTerritoryRepo) {
+			SalesPersonRepository salesPersonRepo, SalesTerritoryRepository salesTerritoryRepo, SalespersonDAO salespersondao) {
 		
 		this.businessEntityRepo = businessEntityRepo;
 		this.employeeRepo = employeeRepo;
 		this.salesPersonRepo = salesPersonRepo;
 		this.salesTerritoryRepo = salesTerritoryRepo;
+		this.salespersondao = salespersondao;
 	}
 
 	@Override
@@ -103,6 +109,29 @@ public class SalesPersonServiceImp implements SalesPersonService {
 	@Override
 	public Iterable<Salesperson> findAll() {
 		return this.salesPersonRepo.findAll();
+	}
+
+	@Override
+	public Iterable<Salesperson> findByTerritoryid(Integer territoryId) {
+		// TODO Auto-generated method stub
+		return this.salespersondao.findAll();
+	}
+
+	@Override
+	public Iterable<Salesperson> findBySalesquota(BigDecimal salesquota) {
+		return this.salespersondao.findBySalesquota(salesquota);
+	}
+
+	@Override
+	public Iterable<Salesperson> findByCommissionpct(BigDecimal commissionpct) {
+		// TODO Auto-generated method stub
+		return this.salespersondao.findByCommissionpct(commissionpct);
+	}
+
+	@Override
+	public Iterable<Salesperson> customQuery(Salesterritory salesterritory, Date minDate, Date maxDate) {
+		// TODO Auto-generated method stub
+		return this.salespersondao.customQuery(salesterritory, minDate, maxDate);
 	}
 
 }
