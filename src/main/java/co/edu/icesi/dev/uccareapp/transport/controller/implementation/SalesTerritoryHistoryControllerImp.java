@@ -15,6 +15,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import co.edu.icesi.dev.uccareapp.transport.controller.interfaces.SalesTerritoryHistoryController;
+import co.edu.icesi.dev.uccareapp.transport.delegate.SalesPersonDelegate;
+import co.edu.icesi.dev.uccareapp.transport.delegate.SalesTerritoryDelegate;
+import co.edu.icesi.dev.uccareapp.transport.delegate.SalesTerritoyHistoryDelegate;
 import co.edu.icesi.dev.uccareapp.transport.model.sales.Salesperson;
 import co.edu.icesi.dev.uccareapp.transport.model.sales.Salesterritory;
 import co.edu.icesi.dev.uccareapp.transport.model.sales.Salesterritoryhistory;
@@ -26,26 +29,26 @@ import co.edu.icesi.dev.uccareapp.transport.service.implementation.SalesTerritor
 public class SalesTerritoryHistoryControllerImp implements SalesTerritoryHistoryController {
 
 	@Autowired
-	SalesTerritoryHistoryServiceImp salesTerritoryHistoryService;
+	SalesTerritoyHistoryDelegate salesTerritoyHistoryDelegate;
 	@Autowired
-	SalesPersonServiceImp salesPersonService;
+	SalesPersonDelegate salesPersonDelegate;
 	@Autowired
-	SalesTerritoryServiceImp salesTerritoryService;
+	SalesTerritoryDelegate salesTerritoryDelegate;
 
 	@GetMapping("/salesterritoryhistory/add")
 	public String addSalesTerritoryHistory(Model model) {
 
 		model.addAttribute("salesterritoryhistory", new Salesterritoryhistory());
 
-		model.addAttribute("salesterritories", this.salesTerritoryService.findAll());
-		model.addAttribute("salespersons", this.salesPersonService.findAll());
+		model.addAttribute("salesterritories", this.salesTerritoryDelegate.findAll());
+		model.addAttribute("salespersons", this.salesPersonDelegate.findAll());
 
 		return "salesterritoryhistory/add-salesterritoryhistory";
 	}
 
 	@GetMapping("/salesterritoryhistory/")
 	public String indexSalesPerson(Model model) {
-		model.addAttribute("salesterritoryhistories", this.salesTerritoryHistoryService.findAll());
+		model.addAttribute("salesterritoryhistories", this.salesTerritoyHistoryDelegate.findAll());
 
 		return "salesterritoryhistory/index";
 	}
@@ -58,8 +61,8 @@ public class SalesTerritoryHistoryControllerImp implements SalesTerritoryHistory
 			if (bindingResult.hasErrors()) {
 				System.out.println("****************fffffffffffffff" + "*");
 
-				model.addAttribute("salesterritories", this.salesTerritoryService.findAll());
-				model.addAttribute("salespersons", this.salesPersonService.findAll());
+				model.addAttribute("salesterritories", this.salesTerritoryDelegate.findAll());
+				model.addAttribute("salespersons", this.salesPersonDelegate.findAll());
 
 				return "/salesterritoryhistory/add-salesterritoryhistory";
 			}
@@ -67,34 +70,26 @@ public class SalesTerritoryHistoryControllerImp implements SalesTerritoryHistory
 			if (sth.getModifieddate().compareTo(sth.getEnddate()) >= 0) {
 				model.addAttribute("invalidDate", true);
 				
-				model.addAttribute("salesterritories", this.salesTerritoryService.findAll());
-				model.addAttribute("salespersons", this.salesPersonService.findAll());
+				model.addAttribute("salesterritories", this.salesTerritoryDelegate.findAll());
+				model.addAttribute("salespersons", this.salesPersonDelegate.findAll());
 				
 				return "/salesterritoryhistory/add-salesterritoryhistory";
 			}
-
-			sth = this.salesTerritoryHistoryService.save(sth);
-			System.out.println("Id" + sth.getId());
-
-			System.out.println("Salesperson" + sth.getSalesperson());
-
-			System.out.println("Salesterritory" + sth.getSalesterritory());
-
-			model.addAttribute("id", sth.getId());
+			this.salesTerritoyHistoryDelegate.save(sth);
 		}
 		return "redirect:/salesterritoryhistory/";
 	}
 
 	@GetMapping("/salesterritoryhistory/edit/{id}")
 	public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
-		Optional<Salesterritoryhistory> user = this.salesTerritoryHistoryService.findById(id);
+		Optional<Salesterritoryhistory> user = Optional.of(this.salesTerritoyHistoryDelegate.findById(id));
 
 		if (user == null)
 			throw new IllegalArgumentException("Invalid user Id:" + id);
 		model.addAttribute("saleterritoryhistory", user.get());
 
-		model.addAttribute("salesterritories", this.salesTerritoryService.findAll());
-		model.addAttribute("salespersons", this.salesPersonService.findAll());
+		model.addAttribute("salesterritories", this.salesTerritoryDelegate.findAll());
+		model.addAttribute("salespersons", this.salesPersonDelegate.findAll());
 
 		return "salesterritoryhistory/update-salesterritoryhistory";
 	}
@@ -105,8 +100,8 @@ public class SalesTerritoryHistoryControllerImp implements SalesTerritoryHistory
 			@RequestParam(value = "action", required = true) String action) {
 		if (action != null && !action.equals("Cancel")) {
 			if (bindingResult.hasErrors()) {
-				model.addAttribute("salesterritories", this.salesTerritoryService.findAll());
-				model.addAttribute("salespersons", this.salesPersonService.findAll());
+				model.addAttribute("salesterritories", this.salesTerritoryDelegate.findAll());
+				model.addAttribute("salespersons", this.salesPersonDelegate.findAll());
 
 				return "/salesterritoryhistory/update-salesterritoryhistory";
 			}
@@ -114,8 +109,8 @@ public class SalesTerritoryHistoryControllerImp implements SalesTerritoryHistory
 			Salesterritoryhistory salesp = sth;
 			salesp.setId(id);
 
-			this.salesTerritoryHistoryService.edit(salesp);
-			model.addAttribute("salesterritories", this.salesTerritoryHistoryService.findAll());
+			this.salesTerritoyHistoryDelegate.edit(salesp);
+			model.addAttribute("salesterritories", this.salesTerritoyHistoryDelegate.findAll());
 		}
 		return "redirect:/salesterritoryhistory/";
 	}
@@ -123,7 +118,7 @@ public class SalesTerritoryHistoryControllerImp implements SalesTerritoryHistory
 	@GetMapping("/salesterritoryhistory/show-salesperson/{id}")
 	public String showSalesperson(@PathVariable("id") Integer id, Model model) {
 
-		Optional<Salesperson> user = this.salesPersonService.findById(id);
+		Optional<Salesperson> user = this.salesPersonDelegate.findById(id);
 
 		if (user == null)
 			throw new IllegalArgumentException("Invalid user Id:" + id);
@@ -139,7 +134,7 @@ public class SalesTerritoryHistoryControllerImp implements SalesTerritoryHistory
 	@GetMapping("/salesterritoryhistory/show-salesterritory/{id}")
 	public String showSalesterritory(@PathVariable("id") Integer id, Model model) {
 
-		Optional<Salesterritory> user = this.salesTerritoryService.findById(id);
+		Optional<Salesterritory> user = this.salesTerritoryDelegate.findById(id);
 
 		if (user == null)
 			throw new IllegalArgumentException("Invalid user Id:" + id);

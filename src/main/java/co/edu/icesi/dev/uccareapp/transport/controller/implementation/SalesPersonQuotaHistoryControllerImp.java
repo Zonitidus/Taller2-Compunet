@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import co.edu.icesi.dev.uccareapp.transport.controller.interfaces.SalesQuotaHistoryController;
+import co.edu.icesi.dev.uccareapp.transport.delegate.SalesPersonDelegate;
+import co.edu.icesi.dev.uccareapp.transport.delegate.SalesPersonQuotaHistoryDelegate;
 import co.edu.icesi.dev.uccareapp.transport.model.sales.Salesperson;
 import co.edu.icesi.dev.uccareapp.transport.model.sales.Salespersonquotahistory;
 import co.edu.icesi.dev.uccareapp.transport.model.sales.Salesterritory;
@@ -27,32 +29,24 @@ import co.edu.icesi.dev.uccareapp.transport.service.implementation.SalesPersonSe
 @Controller
 public class SalesPersonQuotaHistoryControllerImp implements SalesQuotaHistoryController {
 
-	SalesPersonRepository salesPersonRepo;
-	SalesPersonQuotaHistoryRepository salesPersonQuotaHistoryRepo;
-	SalesPersonQuotaHistoryServiceImp salesPersonQuotaHistoryService;
-
 	@Autowired
-	public SalesPersonQuotaHistoryControllerImp(SalesPersonRepository salesPersonRepo,
-			SalesPersonQuotaHistoryRepository salesPersonQuotaHistoryRepo,
-			SalesPersonQuotaHistoryServiceImp salesPersonQuotaHistoryService) {
-		super();
-		this.salesPersonRepo = salesPersonRepo;
-		this.salesPersonQuotaHistoryRepo = salesPersonQuotaHistoryRepo;
-		this.salesPersonQuotaHistoryService = salesPersonQuotaHistoryService;
-	}
+	SalesPersonDelegate salesPersonDelegate;
+	@Autowired
+	SalesPersonQuotaHistoryDelegate salesPersonQuotaHistoryDelegate;
+
 
 	@GetMapping("/salespersonquotahistory/add")
 	public String addSalesPerson(Model model) {
 
 		model.addAttribute("salespersonquotahistory", new Salespersonquotahistory());
-		model.addAttribute("salespersons", salesPersonRepo.findAll());
+		model.addAttribute("salespersons", salesPersonDelegate.findAll());
 
 		return "salespersonquotahistory/add-salespersonquotahistory";
 	}
 
 	@GetMapping("/salespersonquotahistory/")
 	public String indexSalesPerson(Model model) {
-		model.addAttribute("salespersonquotahistories", salesPersonQuotaHistoryRepo.findAll());
+		model.addAttribute("salespersonquotahistories", salesPersonQuotaHistoryDelegate.findAll());
 
 		return "salespersonquotahistory/index";
 	}
@@ -63,7 +57,7 @@ public class SalesPersonQuotaHistoryControllerImp implements SalesQuotaHistoryCo
 
 		if (!action.equals("Cancel")) {
 			if (bindingResult.hasErrors()) {
-				model.addAttribute("salespersons", salesPersonRepo.findAll());
+				model.addAttribute("salespersons", salesPersonDelegate.findAll());
 				System.out.println("****************fffffffffffffff" + "*");
 				return "/salespersonquotahistory/add-salespersonquotahistory";
 			}
@@ -72,8 +66,7 @@ public class SalesPersonQuotaHistoryControllerImp implements SalesQuotaHistoryCo
 			System.out.println(spqh.getSalesperson().getSalesquota());
 			
 			
-			spqh = salesPersonQuotaHistoryService.save(spqh);
-			model.addAttribute("id", spqh.getId());
+			salesPersonQuotaHistoryDelegate.save(spqh);
 		}
 		return "redirect:/salespersonquotahistory/";
 	}
@@ -81,12 +74,12 @@ public class SalesPersonQuotaHistoryControllerImp implements SalesQuotaHistoryCo
 	@GetMapping("/salespersonquotahistory/edit/{id}")
 	public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
 
-		Optional<Salespersonquotahistory> user = salesPersonQuotaHistoryRepo.findById(id);
+		Optional<Salespersonquotahistory> user = Optional.of(salesPersonQuotaHistoryDelegate.findByID(id));
 
 		if (user == null)
 			throw new IllegalArgumentException("Invalid user Id:" + id);
 		model.addAttribute("salespersonquotahistory", user.get());
-		model.addAttribute("salespersons", salesPersonRepo.findAll());
+		model.addAttribute("salespersons", salesPersonDelegate.findAll());
 
 		return "salespersonquotahistory/update-salespersonquotahistory";
 	}
@@ -97,15 +90,15 @@ public class SalesPersonQuotaHistoryControllerImp implements SalesQuotaHistoryCo
 			@RequestParam(value = "action", required = true) String action) {
 		if (action != null && !action.equals("Cancel")) {
 			if (bindingResult.hasErrors()) {
-				model.addAttribute("salespersons", salesPersonRepo.findAll());
+				model.addAttribute("salespersons", salesPersonDelegate.findAll());
 				return "/salespersonquotahistory/update-salespersonquotahistory";
 			}
 
 			Salespersonquotahistory u = spqh;
 			u.setId(id);
 
-			salesPersonQuotaHistoryService.edit(u);
-			model.addAttribute("salespersonquotahistories", salesPersonQuotaHistoryRepo.findAll());
+			salesPersonQuotaHistoryDelegate.edit(u);
+			model.addAttribute("salespersonquotahistories", salesPersonQuotaHistoryDelegate.findAll());
 		}
 		return "redirect:/salespersonquotahistory/";
 	}
