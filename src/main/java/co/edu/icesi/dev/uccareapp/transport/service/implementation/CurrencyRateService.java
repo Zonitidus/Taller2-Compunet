@@ -3,11 +3,15 @@ package co.edu.icesi.dev.uccareapp.transport.service.implementation;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import co.edu.icesi.dev.uccareapp.transport.daos.CurrencyRateDAO;
 import co.edu.icesi.dev.uccareapp.transport.model.sales.Currencyrate;
 import co.edu.icesi.dev.uccareapp.transport.service.interfaces.ICurrencyRateService;
 
+@Service
+@Transactional
 public class CurrencyRateService implements ICurrencyRateService{
 
 	@Autowired

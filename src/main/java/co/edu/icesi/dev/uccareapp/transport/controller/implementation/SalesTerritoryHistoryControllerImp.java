@@ -75,6 +75,10 @@ public class SalesTerritoryHistoryControllerImp implements SalesTerritoryHistory
 				
 				return "/salesterritoryhistory/add-salesterritoryhistory";
 			}
+			System.out.println(sth.getEnddate());
+			System.out.println(sth.getModifieddate());
+			System.out.println(sth.getSalesperson());
+			System.out.println(sth.getSalesterritory());
 			this.salesTerritoyHistoryDelegate.save(sth);
 		}
 		return "redirect:/salesterritoryhistory/";

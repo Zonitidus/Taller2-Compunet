@@ -8,6 +8,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import co.edu.icesi.dev.uccareapp.transport.daos.SalespersonquotahistoryDAO;
 import co.edu.icesi.dev.uccareapp.transport.model.sales.Salespersonquotahistory;
@@ -16,23 +17,20 @@ import co.edu.icesi.dev.uccareapp.transport.repository.SalesPersonRepository;
 import co.edu.icesi.dev.uccareapp.transport.service.interfaces.SalesPersonQuotaHistoryService;
 
 @Service
+@Transactional
 public class SalesPersonQuotaHistoryServiceImp implements SalesPersonQuotaHistoryService {
 
-	private SalesPersonQuotaHistoryRepository salesPersonQuotaHistoryRepo;
 	private SalesPersonRepository salesPersonRepo;
 	private SalespersonquotahistoryDAO salespersonquotahistoryDAO;
 
 	@Autowired
-	public SalesPersonQuotaHistoryServiceImp(SalesPersonQuotaHistoryRepository salesPersonQuotaHistoryRepo,
-			SalesPersonRepository salesPersonRepo,SalespersonquotahistoryDAO salespersonquotahistoryDAO) {
-
-		this.salesPersonQuotaHistoryRepo = salesPersonQuotaHistoryRepo;
+	public SalesPersonQuotaHistoryServiceImp(SalesPersonRepository salesPersonRepo,SalespersonquotahistoryDAO salespersonquotahistoryDAO) {
 		this.salesPersonRepo = salesPersonRepo;
 		this.salespersonquotahistoryDAO = salespersonquotahistoryDAO;
 	}
 
 	@Override
-	public Salespersonquotahistory save(Salespersonquotahistory spqh) {
+	public void save(Salespersonquotahistory spqh) {
 
 		if (spqh == null)
 			throw new RuntimeException("Cannot save a null Salespersonquotahistory object.");
@@ -50,11 +48,11 @@ public class SalesPersonQuotaHistoryServiceImp implements SalesPersonQuotaHistor
 		if (this.salesPersonRepo.findById(spqh.getSalesperson().getBusinessentityid()).isEmpty())
 			throw new RuntimeException("Non-existent businessEntityId");
 
-		return this.salesPersonQuotaHistoryRepo.save(spqh);
+		salespersonquotahistoryDAO.save(spqh);
 	}
 
 	@Override
-	public Salespersonquotahistory edit(Salespersonquotahistory spqh) {
+	public void edit(Salespersonquotahistory spqh) {
 
 		if (spqh == null)
 			throw new RuntimeException("Cannot save a null Salespersonquotahistory object.");
@@ -72,14 +70,14 @@ public class SalesPersonQuotaHistoryServiceImp implements SalesPersonQuotaHistor
 		if (this.salesPersonRepo.findById(spqh.getSalesperson().getBusinessentityid()).isEmpty())
 			throw new RuntimeException("Non-existent businessEntityId");
 
-		Salespersonquotahistory spqhModified = this.salesPersonQuotaHistoryRepo.findById(spqh.getId()).get();
+		Salespersonquotahistory spqhModified = this.salespersonquotahistoryDAO.findById(spqh.getId()).get();
 
 		spqhModified.setModifieddate(spqh.getModifieddate());
 		spqhModified.setRowguid(spqh.getRowguid());
 		spqhModified.setSalesperson(spqh.getSalesperson());
 		spqhModified.setSalesquota(spqh.getSalesquota());
 
-		return this.salesPersonQuotaHistoryRepo.save(spqhModified);
+		salespersonquotahistoryDAO.save(spqhModified);
 	}
 
 	@Override

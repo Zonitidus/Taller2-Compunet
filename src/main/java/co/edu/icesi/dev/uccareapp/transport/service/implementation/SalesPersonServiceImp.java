@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import co.edu.icesi.dev.uccareapp.transport.daos.SalespersonDAO;
 import co.edu.icesi.dev.uccareapp.transport.model.sales.Salesperson;
@@ -17,6 +18,7 @@ import co.edu.icesi.dev.uccareapp.transport.repository.SalesTerritoryRepository;
 import co.edu.icesi.dev.uccareapp.transport.service.interfaces.SalesPersonService;
 
 @Service
+@Transactional
 public class SalesPersonServiceImp implements SalesPersonService {
 
 	private BusinessEntittyRepository businessEntityRepo;

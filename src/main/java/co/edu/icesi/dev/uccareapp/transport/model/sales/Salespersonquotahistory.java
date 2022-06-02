@@ -20,6 +20,10 @@ import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PastOrPresent;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 import org.springframework.format.annotation.DateTimeFormat;
 
 /**
@@ -50,6 +54,7 @@ public class Salespersonquotahistory implements Serializable {
 	// bi-directional many-to-one association to Salesperson
 	@ManyToOne
 	@JoinColumn(name = "businessentityid", insertable = true, updatable = true)
+	@JsonIgnoreProperties("salespersonquotahistories")
 	private Salesperson salesperson;
 
 	public Salespersonquotahistory() {

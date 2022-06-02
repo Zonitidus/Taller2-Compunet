@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import co.edu.icesi.dev.uccareapp.transport.daos.SalesterritoryDAO;
 import co.edu.icesi.dev.uccareapp.transport.model.sales.Salesterritory;
@@ -12,6 +13,7 @@ import co.edu.icesi.dev.uccareapp.transport.repository.SalesTerritoryRepository;
 import co.edu.icesi.dev.uccareapp.transport.service.interfaces.SalesTerritoryService;
 
 @Service
+@Transactional
 public class SalesTerritoryServiceImp implements SalesTerritoryService{
 
 	private CountryRegionRepository coutrRegionRepo;

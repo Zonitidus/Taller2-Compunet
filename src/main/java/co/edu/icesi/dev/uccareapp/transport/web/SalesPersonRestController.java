@@ -24,47 +24,47 @@ public class SalesPersonRestController {
 	@Autowired
 	private SalesPersonServiceImp salespersonservice;
 
-	@PostMapping("/salesperson/add")
+	@PostMapping("/api/salesperson/add")
 	public void addSalesPersonQuotaHistory(@RequestBody Salesperson sp) {
 		this.salespersonservice.save(sp);
 	}
 
-	@PutMapping("/salesperson/update")
+	@PutMapping("/api/salesperson/update")
 	public void updateSalespersonquotahistory(@RequestBody Salesperson sp) {
 		this.salespersonservice.edit(sp);
 	}
 
-	@GetMapping("/salesperson/{id}")
+	@GetMapping("/api/salesperson/{id}")
 	public Optional<Salesperson> findById(@PathVariable("id") Integer id) {
 		// TODO Auto-generated method stub
 		return this.salespersonservice.findById(id);
 	}
 
-	@GetMapping("/salesperson/")
+	@GetMapping("/api/salesperson/")
 	public Iterable<Salesperson> findAll() {
 		// TODO Auto-generated method stub
 		return this.salespersonservice.findAll();
 	}
 
-	@GetMapping("/salesperson/findbyterritory/{territoryid}")
+	@GetMapping("/api/salesperson/findbyterritory/{territoryid}")
 	public Iterable<Salesperson> findByTerritoryid(@PathVariable("territoryid") Integer territoryId) {
 		// TODO Auto-generated method stub
 		return this.salespersonservice.findByTerritoryid(territoryId);
 	}
 
-	@GetMapping("/salesperson/findbysalesquota/{salesquota}")
+	@GetMapping("/api/salesperson/findbysalesquota/{salesquota}")
 	public Iterable<Salesperson> findBySalesquota(@PathVariable("salesquota") BigDecimal salesquota) {
 		// TODO Auto-generated method stub
 		return this.salespersonservice.findBySalesquota(salesquota);
 	}
 
-	@GetMapping("/salesperson/findbycommissionpct/{commissionpct}")
+	@GetMapping("/api/salesperson/findbycommissionpct/{commissionpct}")
 	public Iterable<Salesperson> findByCommissionpct(@PathVariable("commissionpct") BigDecimal commissionpct) {
 		// TODO Auto-generated method stub
 		return this.salespersonservice.findByCommissionpct(commissionpct);
 	}
 
-	@GetMapping("/salesperson/customquery/salesterritory/start/minDate/end/maxDate")
+	@GetMapping("/api/salesperson/customquery/salesterritory/start/minDate/end/maxDate")
 	public Iterable<Salesperson> customQuery(@RequestParam("salesterritory") Salesterritory salesterritory,
 			@RequestParam("minDate") Date minDate, @RequestParam("maxDate") Date maxDate) {
 

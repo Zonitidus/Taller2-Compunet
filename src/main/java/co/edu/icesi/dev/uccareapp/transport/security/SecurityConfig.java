@@ -37,12 +37,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity httpSecurity) throws Exception {
 
-		httpSecurity.authorizeRequests().antMatchers("/salesperson/**").hasRole("admin")
-				.antMatchers("/salesterritory/**").hasRole("admin").antMatchers("/salespersonquotahistory/**")
-				.hasRole("operator").antMatchers("/salesterritoryhistory/**").hasRole("operator").anyRequest()
-				.authenticated().and().formLogin().loginPage("/login").permitAll().and().logout()
-				.invalidateHttpSession(true).clearAuthentication(true)
-				.logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/login?logout")
-				.permitAll().and().exceptionHandling().accessDeniedHandler(accessDeniedHandler);
+		httpSecurity.cors().disable().csrf().disable().authorizeRequests().anyRequest().permitAll().and().logout()
+				.invalidateHttpSession(true).clearAuthentication(true);
+		
 	}
 }

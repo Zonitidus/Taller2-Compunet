@@ -15,12 +15,17 @@ import javax.persistence.SequenceGenerator;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 /**
  * The persistent class for the salesterritory database table.
  *
  */
+
 @Entity
 @NamedQuery(name = "Salesterritory.findAll", query = "SELECT s FROM Salesterritory s")
+@JsonIdentityInfo(generator= ObjectIdGenerators.IntSequenceGenerator.class, property="territoryid")
 public class Salesterritory implements Serializable {
 	private static final long serialVersionUID = 1L;
 

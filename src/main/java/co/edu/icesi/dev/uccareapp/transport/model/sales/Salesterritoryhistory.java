@@ -17,6 +17,8 @@ import javax.validation.constraints.Future;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PastOrPresent;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import org.springframework.format.annotation.DateTimeFormat;
 
 /**
@@ -47,6 +49,7 @@ public class Salesterritoryhistory implements Serializable {
 	// bi-directional many-to-one association to Salesperson
 	@ManyToOne
 	@JoinColumn(name = "businessentityid", insertable = true, updatable = true)
+	//@JsonIgnoreProperties({"salespersonquotahistories","salesorderheaders","salesterritory","salesterritoryhistories"})
 	private Salesperson salesperson;
 
 	// bi-directional many-to-one association to Salesterritory

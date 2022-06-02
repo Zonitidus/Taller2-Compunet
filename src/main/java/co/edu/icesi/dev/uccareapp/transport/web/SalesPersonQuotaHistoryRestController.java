@@ -21,37 +21,37 @@ public class SalesPersonQuotaHistoryRestController {
 	@Autowired
 	private SalesPersonQuotaHistoryService salesPersonQuotaHistoryServiceImp;
 	
-	@GetMapping("/salesPersonQuotaHistory")
+	@GetMapping("/api/salesPersonQuotaHistory")
 	public Iterable<Salespersonquotahistory> getSalespersonquotahistory(){
 		return salesPersonQuotaHistoryServiceImp.findAll();
 	}
 	
-	@GetMapping("/salesPersonQuotaHistory/{id}")
+	@GetMapping("/api/salesPersonQuotaHistory/{id}")
 	public Salespersonquotahistory getSalespersonquotahistory(@PathVariable Integer id) {
 		return salesPersonQuotaHistoryServiceImp.findByID(id).get();
 	}
 	
-	@PostMapping("/salesPersonQuotaHistory/add")
+	@PostMapping("/api/salesPersonQuotaHistory/add")
 	public void addSalesPersonQuotaHistory(@RequestBody Salespersonquotahistory spqh) {
 		salesPersonQuotaHistoryServiceImp.save(spqh);
 	}
 	
-	@PutMapping("/salesPersonQuotaHistory/update")
+	@PutMapping("/api/salesPersonQuotaHistory/update")
 	public void updateSalespersonquotahistory(@RequestBody Salespersonquotahistory spqh) {
 		salesPersonQuotaHistoryServiceImp.edit(spqh);
 	}
 	
-	@GetMapping("/salesPersonQuotaHistory/findBySalesperson/{id}")
+	@GetMapping("/api/salesPersonQuotaHistory/findBySalesperson/{id}")
 	public Iterable<Salespersonquotahistory> findBySalespersonid(@PathVariable Integer id){
 		return salesPersonQuotaHistoryServiceImp.findBySalespersonid(id);
 	}
 	
-	@GetMapping("/salesPersonQuotaHistory/findBySalesquota/{id}")
+	@GetMapping("/api/salesPersonQuotaHistory/findBySalesquota/{id}")
 	public Iterable<Salespersonquotahistory> findBySalesquota(BigDecimal salesquota){
 		return salesPersonQuotaHistoryServiceImp.findBySalesquota(salesquota);
 	}
 	
-	@DeleteMapping("salesPersonQuotaHistory/delete/{id}")
+	@DeleteMapping("/api/salesPersonQuotaHistory/delete/{id}")
 	public void deleteSalesPersonQuotaHistory(@PathVariable Integer id) {
 		salesPersonQuotaHistoryServiceImp.delete(id);
 	}

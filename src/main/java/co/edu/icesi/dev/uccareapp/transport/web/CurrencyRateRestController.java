@@ -18,27 +18,27 @@ public class CurrencyRateRestController {
 	@Autowired
 	private CurrencyRateService currencyRateService;
 	
-	@GetMapping("/currencyRate")
+	@GetMapping("/api/currencyRate")
 	public Iterable<Currencyrate> getCurrencyrate(){
 		return currencyRateService.findAll();
 	}
 	
-	@GetMapping("/currencyRate/{id}")
+	@GetMapping("/api/currencyRate/{id}")
 	public Currencyrate getCurrencyrate(@PathVariable Integer id) {
 		return currencyRateService.findByID(id).get();
 	}
 	
-	@PostMapping("/currencyRate/add")
+	@PostMapping("/api/currencyRate/add")
 	public void addCurrencyrate(@RequestBody Currencyrate spqh) {
 		currencyRateService.save(spqh);
 	}
 	
-	@PutMapping("/currencyRate/update")
+	@PutMapping("/api/currencyRate/update")
 	public void editCurrencyrate(@RequestBody Currencyrate spqh) {
 		currencyRateService.edit(spqh);
 	}
 	
-	@DeleteMapping("currencyRate/delete/{id}")
+	@DeleteMapping("/api/currencyRate/delete/{id}")
 	public void deleteCurrencyrate(@PathVariable Integer id) {
 		currencyRateService.delete(id);
 	}

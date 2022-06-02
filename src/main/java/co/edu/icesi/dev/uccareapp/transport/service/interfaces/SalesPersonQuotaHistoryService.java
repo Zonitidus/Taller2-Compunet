@@ -7,8 +7,8 @@ import co.edu.icesi.dev.uccareapp.transport.model.sales.Salespersonquotahistory;
 
 public interface SalesPersonQuotaHistoryService {
 
-	public Salespersonquotahistory save(Salespersonquotahistory spqh);
-	public Salespersonquotahistory edit(Salespersonquotahistory spqh); 
+	public void save(Salespersonquotahistory spqh);
+	public void edit(Salespersonquotahistory spqh); 
 	public void delete(Integer id);
 	public Optional<Salespersonquotahistory> findByID(Integer id);
 	public Iterable<Salespersonquotahistory> findAll();

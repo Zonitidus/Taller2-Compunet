@@ -7,6 +7,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import co.edu.icesi.dev.uccareapp.transport.daos.ISalesterritoryHistoryDAO;
 import co.edu.icesi.dev.uccareapp.transport.daos.SalesterritoryhistoryDAO;
@@ -18,28 +19,24 @@ import co.edu.icesi.dev.uccareapp.transport.repository.SalesTerritoryRepository;
 import co.edu.icesi.dev.uccareapp.transport.service.interfaces.SalesTerritoyHistoryService;
 
 @Service
+@Transactional
 public class SalesTerritoryHistoryServiceImp implements SalesTerritoyHistoryService {
 
-	private SalesTerritoryHistoryRepository salesTerritoryHistoryRepository;
 	private SalesTerritoryRepository salesTerritoryRepository;
 	private BusinessEntittyRepository businessEntityRepository;
-	private SalesPersonRepository salesPersonRepository;
 	private ISalesterritoryHistoryDAO salesterritoryhistoryDAO;
 
 	@Autowired
-	public SalesTerritoryHistoryServiceImp(SalesTerritoryHistoryRepository salesTerritoryHistoryRepository,
-			SalesTerritoryRepository salesTerritoryRepository, BusinessEntittyRepository businessEntityRepository,
-			SalesPersonRepository salesPersonRepository,ISalesterritoryHistoryDAO salesterritoryhistoryDAO) {
+	public SalesTerritoryHistoryServiceImp(SalesTerritoryRepository salesTerritoryRepository,
+			BusinessEntittyRepository businessEntityRepository,ISalesterritoryHistoryDAO salesterritoryhistoryDAO) {
 
-		this.salesTerritoryHistoryRepository = salesTerritoryHistoryRepository;
 		this.salesTerritoryRepository = salesTerritoryRepository;
 		this.businessEntityRepository = businessEntityRepository;
-		this.salesPersonRepository = salesPersonRepository;
 		this.salesterritoryhistoryDAO = salesterritoryhistoryDAO;
 	}
 
 	@Override
-	public Salesterritoryhistory save(Salesterritoryhistory sth) {
+	public void save(Salesterritoryhistory sth) {
 
 		if (sth == null)
 			throw new RuntimeException("Cannot save a null saveSalesTerritoryHistory object.");
@@ -60,11 +57,11 @@ public class SalesTerritoryHistoryServiceImp implements SalesTerritoyHistoryServ
 		if (this.salesTerritoryRepository.findById(sth.getSalesterritory().getTerritoryid()).isEmpty())
 			throw new RuntimeException("Invalid associated SalesTerritory");
 
-		return this.salesTerritoryHistoryRepository.save(sth);
+		salesterritoryhistoryDAO.save(sth);
 	}
 
 	@Override
-	public Salesterritoryhistory edit(Salesterritoryhistory sth) {
+	public void edit(Salesterritoryhistory sth) {
 
 		if (sth == null)
 			throw new RuntimeException("Cannot save a null saveSalesTerritoryHistory object.");
@@ -85,10 +82,10 @@ public class SalesTerritoryHistoryServiceImp implements SalesTerritoyHistoryServ
 		if (this.salesTerritoryRepository.findById(sth.getSalesterritory().getTerritoryid()).isEmpty())
 			throw new RuntimeException("Invalid associated SalesTerritory");
 
-		if (this.salesTerritoryHistoryRepository.findById(sth.getId()).isEmpty())
+		if (this.salesterritoryhistoryDAO.findById(sth.getId()).isEmpty())
 			throw new RuntimeException("Non-existent salesTerritoryHistory to edit");
 
-		Salesterritoryhistory sthModified = this.salesTerritoryHistoryRepository.findById(sth.getId()).get();
+		Salesterritoryhistory sthModified = this.salesterritoryhistoryDAO.findById(sth.getId()).get();
 
 		sthModified.setEnddate(sth.getEnddate());
 		sthModified.setModifieddate(sth.getModifieddate());
@@ -96,7 +93,7 @@ public class SalesTerritoryHistoryServiceImp implements SalesTerritoyHistoryServ
 		sthModified.setSalesperson(sth.getSalesperson());
 		sthModified.setSalesterritory(sth.getSalesterritory());
 
-		return this.salesTerritoryHistoryRepository.save(sthModified);
+		salesterritoryhistoryDAO.save(sthModified);
 	}
 	
 	public Iterable<Salesterritoryhistory> findAll(){

@@ -2,6 +2,12 @@ package co.edu.icesi.dev.uccareapp.transport.model.sales;
 
 import java.io.Serializable;
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
+
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.List;
@@ -21,6 +27,8 @@ public class Currencyrate implements Serializable {
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="CURRENCYRATE_CURRENCYRATEID_GENERATOR")
 	private Integer currencyrateid;
 
+	@NotNull
+	@Positive
 	private BigDecimal averagerate;
 
 	private Timestamp currencyratedate;

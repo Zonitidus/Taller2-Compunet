@@ -6,8 +6,8 @@ import co.edu.icesi.dev.uccareapp.transport.model.sales.Salesterritoryhistory;
 
 public interface SalesTerritoyHistoryService {
 
-	public Salesterritoryhistory save(Salesterritoryhistory sth);
-	public Salesterritoryhistory edit(Salesterritoryhistory sth);
+	public void save(Salesterritoryhistory sth);
+	public void edit(Salesterritoryhistory sth);
 	public void delete(Integer id);
 	public Optional<Salesterritoryhistory> findById(Integer id);
 	public Iterable<Salesterritoryhistory> findAll();

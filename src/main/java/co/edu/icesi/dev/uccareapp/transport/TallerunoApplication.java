@@ -12,19 +12,24 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.web.client.RestTemplate;
 import org.thymeleaf.extras.java8time.dialect.Java8TimeDialect;
 
 import co.edu.icesi.dev.uccareapp.transport.model.UserApp;
 import co.edu.icesi.dev.uccareapp.transport.model.UserType;
 import co.edu.icesi.dev.uccareapp.transport.model.person.Businessentity;
 import co.edu.icesi.dev.uccareapp.transport.model.person.Countryregion;
+import co.edu.icesi.dev.uccareapp.transport.model.sales.Currencyrate;
 import co.edu.icesi.dev.uccareapp.transport.model.sales.Salesperson;
+import co.edu.icesi.dev.uccareapp.transport.model.sales.Salespersonquotahistory;
 import co.edu.icesi.dev.uccareapp.transport.model.sales.Salesterritory;
 import co.edu.icesi.dev.uccareapp.transport.repository.BusinessEntittyRepository;
 import co.edu.icesi.dev.uccareapp.transport.repository.CountryRegionRepository;
 import co.edu.icesi.dev.uccareapp.transport.repository.SalesTerritoryRepository;
 import co.edu.icesi.dev.uccareapp.transport.repository.UserRepository;
+import co.edu.icesi.dev.uccareapp.transport.service.implementation.CurrencyRateService;
 import co.edu.icesi.dev.uccareapp.transport.service.implementation.SalesPersonServiceImp;
+import co.edu.icesi.dev.uccareapp.transport.service.interfaces.SalesPersonQuotaHistoryService;
 
 @SpringBootApplication
 public class TallerunoApplication {
@@ -39,9 +44,14 @@ public class TallerunoApplication {
 	}
 
 	@Bean
+	public RestTemplate getRestTemplate() {
+		return new RestTemplate();
+	}
+	
+	@Bean
 	public CommandLineRunner dummy(UserRepository ur, BusinessEntittyRepository ber, 
 			CountryRegionRepository countryRegionRepo, SalesTerritoryRepository salesTerritoryRepository,
-			SalesPersonServiceImp salesPersonService) {
+			SalesPersonServiceImp salesPersonService, CurrencyRateService currencyRateService, SalesPersonQuotaHistoryService sphqs) {
 
 		return (args) -> {
 			UserApp u = new UserApp();
@@ -121,6 +131,17 @@ public class TallerunoApplication {
 			
 			salesPersonService.save(sp);
 			
+			Currencyrate currencyrate = new Currencyrate();
+			currencyrate.setAveragerate(BigDecimal.valueOf(10));
+			
+			currencyRateService.save(currencyrate);
+			
+			Currencyrate currencyrate2 = new Currencyrate();
+			currencyrate2.setAveragerate(BigDecimal.valueOf(20));
+			
+			currencyRateService.save(currencyrate2);
+			
+			Salespersonquotahistory spqh = new Salespersonquotahistory();
 		};
 
 	}

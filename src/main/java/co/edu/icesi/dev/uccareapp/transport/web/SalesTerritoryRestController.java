@@ -19,26 +19,26 @@ public class SalesTerritoryRestController {
 	@Autowired
 	public SalesTerritoryServiceImp salesterritoryservice;
 	
-	@PostMapping("/salesterritory/add")
+	@PostMapping("/api/salesterritory/add")
 	public void save(@RequestBody Salesterritory st) {
 		this.salesterritoryservice.save(st);
 	}
-	@PutMapping("/salesterritory/update")
+	@PutMapping("/api/salesterritory/update")
 	public void edit(@RequestBody Salesterritory st) {
 		this.salesterritoryservice.edit(st);
 	}
 	
-	@GetMapping("/salesterritory/{id}")
+	@GetMapping("/api/salesterritory/{id}")
 	public Optional<Salesterritory> findById(@PathVariable("id") Integer id){
-		return this.findById(id);
+		return this.salesterritoryservice.findById(id);
 	}
 	
-	@GetMapping("/salesterritory/")
+	@GetMapping("/api/salesterritory/")
 	public Iterable<Salesterritory> findAll(){
-		return this.findAll();
+		return this.salesterritoryservice.findAll();
 	}
 	
-	@GetMapping("/salesterritory/customquery")
+	@GetMapping("/api/salesterritory/customquery")
 	public Iterable<Salesterritory> customQuery(){
 		return this.salesterritoryservice.customQuery();
 	}

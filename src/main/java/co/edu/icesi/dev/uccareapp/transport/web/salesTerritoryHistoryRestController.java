@@ -18,37 +18,37 @@ public class salesTerritoryHistoryRestController {
 	@Autowired
 	private SalesTerritoyHistoryService salesTerritoyHistoryService;
 	
-	@PostMapping("/salesTerritoyHistory/add")
+	@PostMapping("/api/salesTerritoyHistory/add")
 	public void getSalesTerritoyHistory(@RequestBody Salesterritoryhistory sth) {
 		salesTerritoyHistoryService.save(sth);
 	}
 	
-	@PutMapping("/salesTerritoyHistory/update")
+	@PutMapping("/api/salesTerritoyHistory/update")
 	public void updatealesTerritoyHistory(@RequestBody Salesterritoryhistory sth) {
 		salesTerritoyHistoryService.edit(sth);
 	}
 	
-	@GetMapping("/salesTerritoyHistory/{id}")
+	@GetMapping("/api/salesTerritoyHistory/{id}")
 	public Salesterritoryhistory findById(Integer id){
 		return salesTerritoyHistoryService.findById(id).get();
 	}
 	
-	@GetMapping("/salesTerritoyHistory")
+	@GetMapping("/api/salesTerritoyHistory")
 	public Iterable<Salesterritoryhistory> findAll(){
 		return salesTerritoyHistoryService.findAll();
 	}
 
-	@GetMapping("/salesTerritoyHistory/findBySalespersonid/{id}")
+	@GetMapping("/api/salesTerritoyHistory/findBySalespersonid/{id}")
 	public Iterable<Salesterritoryhistory> findBySalespersonid(@PathVariable Integer salespersonid){
 		return salesTerritoyHistoryService.findBySalespersonid(salespersonid);
 	}
 
-	@GetMapping("/salesTerritoyHistory/findBySalesterritoryid/{id}")
+	@GetMapping("/api/salesTerritoyHistory/findBySalesterritoryid/{id}")
 	public Iterable<Salesterritoryhistory> findBySalesterritoryid(@PathVariable Integer salesterritoryid){
 		return salesTerritoyHistoryService.findBySalesterritoryid(salesterritoryid);
 	}
 	
-	@DeleteMapping("/salesTerritoyHistory/delete/{id}")
+	@DeleteMapping("/api/salesTerritoyHistory/delete/{id}")
 	public void deleteSalesTerritoyHistory(Integer id) {
 		salesTerritoyHistoryService.delete(id);
 	}
