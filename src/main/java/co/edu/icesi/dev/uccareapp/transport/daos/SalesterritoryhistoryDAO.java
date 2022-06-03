@@ -21,6 +21,7 @@ public class SalesterritoryhistoryDAO implements ISalesterritoryHistoryDAO {
 
 	@Override
 	public void save(Salesterritoryhistory entity) {
+		System.out.println("entra al dao");
 		entityManager.persist(entity);
 	}
 

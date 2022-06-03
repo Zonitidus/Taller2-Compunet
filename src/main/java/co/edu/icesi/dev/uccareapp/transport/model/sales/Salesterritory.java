@@ -25,7 +25,6 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity
 @NamedQuery(name = "Salesterritory.findAll", query = "SELECT s FROM Salesterritory s")
-@JsonIdentityInfo(generator= ObjectIdGenerators.IntSequenceGenerator.class, property="territoryid")
 public class Salesterritory implements Serializable {
 	private static final long serialVersionUID = 1L;
 

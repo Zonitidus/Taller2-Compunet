@@ -37,7 +37,7 @@ public class SalesTerritoryHistoryServiceImp implements SalesTerritoyHistoryServ
 
 	@Override
 	public void save(Salesterritoryhistory sth) {
-
+		System.out.println("entra al servicio");
 		if (sth == null)
 			throw new RuntimeException("Cannot save a null saveSalesTerritoryHistory object.");
 		
@@ -51,12 +51,17 @@ public class SalesTerritoryHistoryServiceImp implements SalesTerritoyHistoryServ
 		if (sth.getModifieddate().compareTo(sth.getEnddate()) >= 0)
 			throw new RuntimeException("Init date must be less than end date");
 
+		System.out.println("aa"+sth.getSalesperson().getBusinessentityid());
+		System.out.println("bb"+sth.getSalesterritory().getTerritoryid());
+		
+		System.out.println(sth.getSalesterritory().getTerritoryid());
+		System.out.println(sth.getSalesperson().getBusinessentityid());
 		if (this.businessEntityRepository.findById(sth.getSalesperson().getBusinessentityid()).isEmpty())
 			throw new RuntimeException("Invalid BusinessEntityId");
 
 		if (this.salesTerritoryRepository.findById(sth.getSalesterritory().getTerritoryid()).isEmpty())
 			throw new RuntimeException("Invalid associated SalesTerritory");
-
+		System.out.println("entra al servicio");
 		salesterritoryhistoryDAO.save(sth);
 	}
 

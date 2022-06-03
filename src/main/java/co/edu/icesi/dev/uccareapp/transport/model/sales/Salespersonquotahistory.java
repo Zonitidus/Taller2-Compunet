@@ -54,7 +54,7 @@ public class Salespersonquotahistory implements Serializable {
 	// bi-directional many-to-one association to Salesperson
 	@ManyToOne
 	@JoinColumn(name = "businessentityid", insertable = true, updatable = true)
-	@JsonIgnoreProperties("salespersonquotahistories")
+	@JsonIgnoreProperties({"salespersonquotahistories","salesorderheaders","salesterritory","salesterritoryhistories"})
 	private Salesperson salesperson;
 
 	public Salespersonquotahistory() {

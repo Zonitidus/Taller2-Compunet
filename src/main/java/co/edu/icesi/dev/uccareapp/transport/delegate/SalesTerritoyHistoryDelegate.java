@@ -22,6 +22,7 @@ public class SalesTerritoyHistoryDelegate implements ISalesTerritoyHistoryDelega
 	@Override
 	public void save(Salesterritoryhistory sth) {
 		// TODO Auto-generated method stub
+		System.out.println("entra al delegate");
 		restTemplate.postForObject("http://localhost:8080/api/salesTerritoyHistory/add", sth, Salesterritoryhistory.class);
 	}
 

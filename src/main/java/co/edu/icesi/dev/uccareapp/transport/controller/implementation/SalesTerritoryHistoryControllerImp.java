@@ -21,6 +21,7 @@ import co.edu.icesi.dev.uccareapp.transport.delegate.SalesTerritoyHistoryDelegat
 import co.edu.icesi.dev.uccareapp.transport.model.sales.Salesperson;
 import co.edu.icesi.dev.uccareapp.transport.model.sales.Salesterritory;
 import co.edu.icesi.dev.uccareapp.transport.model.sales.Salesterritoryhistory;
+import co.edu.icesi.dev.uccareapp.transport.repository.SalesTerritoryRepository;
 import co.edu.icesi.dev.uccareapp.transport.service.implementation.SalesPersonServiceImp;
 import co.edu.icesi.dev.uccareapp.transport.service.implementation.SalesTerritoryHistoryServiceImp;
 import co.edu.icesi.dev.uccareapp.transport.service.implementation.SalesTerritoryServiceImp;
@@ -30,6 +31,8 @@ public class SalesTerritoryHistoryControllerImp implements SalesTerritoryHistory
 
 	@Autowired
 	SalesTerritoyHistoryDelegate salesTerritoyHistoryDelegate;
+	@Autowired
+	SalesTerritoryRepository salesTerritoryRepository;
 	@Autowired
 	SalesPersonDelegate salesPersonDelegate;
 	@Autowired
@@ -57,6 +60,7 @@ public class SalesTerritoryHistoryControllerImp implements SalesTerritoryHistory
 	public String saveUser(@Validated @ModelAttribute Salesterritoryhistory sth, BindingResult bindingResult,
 			Model model, @RequestParam(value = "action", required = true) String action) {
 
+		
 		if (!action.equals("Cancel")) {
 			if (bindingResult.hasErrors()) {
 				System.out.println("****************fffffffffffffff" + "*");
@@ -78,7 +82,8 @@ public class SalesTerritoryHistoryControllerImp implements SalesTerritoryHistory
 			System.out.println(sth.getEnddate());
 			System.out.println(sth.getModifieddate());
 			System.out.println(sth.getSalesperson());
-			System.out.println(sth.getSalesterritory());
+			System.out.println(sth.getSalesperson().getBusinessentityid());
+			System.out.println(sth.getSalesterritory().getTerritoryid());
 			this.salesTerritoyHistoryDelegate.save(sth);
 		}
 		return "redirect:/salesterritoryhistory/";

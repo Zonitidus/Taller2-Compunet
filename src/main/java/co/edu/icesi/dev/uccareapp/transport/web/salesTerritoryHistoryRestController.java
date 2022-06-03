@@ -19,7 +19,8 @@ public class salesTerritoryHistoryRestController {
 	private SalesTerritoyHistoryService salesTerritoyHistoryService;
 	
 	@PostMapping("/api/salesTerritoyHistory/add")
-	public void getSalesTerritoyHistory(@RequestBody Salesterritoryhistory sth) {
+	public void saveSalesTerritoyHistory(@RequestBody Salesterritoryhistory sth) {
+		System.out.println("entra al restAPI");
 		salesTerritoyHistoryService.save(sth);
 	}
 	

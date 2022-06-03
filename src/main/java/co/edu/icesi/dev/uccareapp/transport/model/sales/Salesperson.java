@@ -19,6 +19,8 @@ import javax.validation.constraints.DecimalMax;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotBlank;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 /**
  * The persistent class for the salesperson database table.
  *
@@ -57,6 +59,7 @@ public class Salesperson implements Serializable {
 	// bi-directional many-to-one association to Salesterritory
 	@ManyToOne
 	@JoinColumn(name = "territoryid")
+	@JsonIgnoreProperties("salespersons")
 	private Salesterritory salesterritory;
 
 	// bi-directional many-to-one association to Salespersonquotahistory
