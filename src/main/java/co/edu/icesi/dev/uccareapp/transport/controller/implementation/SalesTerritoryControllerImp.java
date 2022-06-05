@@ -56,7 +56,7 @@ public class SalesTerritoryControllerImp implements SalesTerritoryController {
 				System.out.println("****************fffffffffffffff" + "*");
 				return "/salesterritory/add-salesterritory";
 			}
-			st = salesTerritoryServiceImp.save(st);
+			salesTerritoryServiceImp.save(st);
 			model.addAttribute("id", st.getTerritoryid());
 		}
 		return "redirect:/salesterritory/";

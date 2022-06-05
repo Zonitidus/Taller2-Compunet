@@ -31,7 +31,7 @@ public class SalesTerritoryServiceImp implements SalesTerritoryService{
 	}
 
 	@Override
-	public Salesterritory save(Salesterritory st) {
+	public void save(Salesterritory st) {
 		
 		if(st == null)
 			throw new RuntimeException("Cannot save a null Salesterritory object.");
@@ -45,11 +45,11 @@ public class SalesTerritoryServiceImp implements SalesTerritoryService{
 		if(this.coutrRegionRepo.findById(st.getCountryregioncode()).isEmpty())
 			throw new RuntimeException("Invalid Country-Region code.");
 		
-		return this.salesTerritoryRepo.save(st);
+		this.salesterritorydao.save(st);
 	}
 
 	@Override
-	public Salesterritory edit(Salesterritory st) {
+	public void edit(Salesterritory st) {
 		
 		if(st == null)
 			throw new RuntimeException("Cannot save a null Salesterritory object.");
@@ -63,7 +63,9 @@ public class SalesTerritoryServiceImp implements SalesTerritoryService{
 		if(this.coutrRegionRepo.findById(st.getCountryregioncode()).isEmpty())
 			throw new RuntimeException("Invalid Country-Region code.");
 		
+		this.salesterritorydao.update(st);
 		
+		/*
 		Salesterritory stModified = this.salesTerritoryRepo.findById(st.getTerritoryid()).get();
 		
 		stModified.setCostlastyear(st.getCostlastyear());
@@ -84,7 +86,7 @@ public class SalesTerritoryServiceImp implements SalesTerritoryService{
 		
 		System.out.println(sav);
 		
-		return sav;
+		return sav;*/
 	}
 	
 	@Override

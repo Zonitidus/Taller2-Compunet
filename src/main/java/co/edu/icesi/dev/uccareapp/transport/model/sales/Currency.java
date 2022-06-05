@@ -11,6 +11,10 @@ import javax.persistence.Id;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.PastOrPresent;
+
+import org.hibernate.annotations.GenericGenerator;
 
 /**
  * The persistent class for the currency database table.
@@ -24,10 +28,13 @@ public class Currency implements Serializable {
 	@Id
 	@SequenceGenerator(name = "CURRENCY_CURRENCYCODE_GENERATOR", allocationSize = 1, sequenceName = "CURRENCY_SEQ")
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "CURRENCY_CURRENCYCODE_GENERATOR")
+	@GenericGenerator(name="CURRENCY_CURRENCYCODE_GENERATOR", strategy = "uuid")
 	private String currencycode;
 
+	@PastOrPresent
 	private Timestamp modifieddate;
 
+	@NotBlank
 	private String name;
 
 	// bi-directional many-to-one association to Countryregioncurrency

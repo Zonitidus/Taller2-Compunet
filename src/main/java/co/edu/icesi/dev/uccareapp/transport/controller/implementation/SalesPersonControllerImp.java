@@ -71,7 +71,7 @@ public class SalesPersonControllerImp implements SalesPersonController {
 				System.out.println("****************fffffffffffffff" + "*");
 				return "/salesperson/add-salesperson";
 			}
-			sp = salesPersonService.save(sp);
+			salesPersonService.save(sp);
 			System.out.println("**********" + sp.getBusinessentityid());
 			model.addAttribute("id", sp.getBusinessentityid());
 		}
