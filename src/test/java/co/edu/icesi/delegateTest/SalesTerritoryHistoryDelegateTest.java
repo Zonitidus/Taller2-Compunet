@@ -163,7 +163,7 @@ class SalesTerritoryHistoryDelegateTest {
 	}
 	
 	@Test
-	void findBySalesquota() {
+	void findBySalesterritoryid() {
 		Salesterritoryhistory sth = new Salesterritoryhistory();
 		sth.setModifieddate(Timestamp.valueOf(LocalDateTime.now().minusDays(10)));
 		

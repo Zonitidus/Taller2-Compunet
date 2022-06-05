@@ -83,7 +83,7 @@ public class SalespersonDAO implements ISalespersonDAO {
 		Query query = entityManager.createQuery(
 				"SELECT sp FROM Salesperson sp "
 				+ "WHERE (SELECT COUNT(sth) FROM Salesterritoryhistory sth "
-				+ "WHERE sth MEMBER OF sp.salespterritoryhisotries "
+				+ "WHERE sth MEMBER OF sp.salespterritoryhistories "
 				+ "AND sth.startdate>=minDate "
 				+ "AND sth.enddate<=maxDate)>=1 "
 				+ "AND stId = sp.salesterritory.territoryid"

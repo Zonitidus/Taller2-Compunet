@@ -40,14 +40,14 @@ public class SalesTerritoryDelegate implements ISalesTerritoryDelegate {
 	@Override
 	public Iterable<Salesterritory> findAll() {
 		// TODO Auto-generated method stub
-		return Arrays.asList(
-				this.restTemplate.getForObject("http://localhost:8080/api/salesterritory/", Salesterritory[].class));
+		Salesterritory sts[] = this.restTemplate.getForObject("http://localhost:8080/api/salesterritory/", Salesterritory[].class);
+		return Arrays.asList(sts);
 	}
 
 	@Override
 	public Iterable<Salesterritory> customQuery() {
 		// TODO Auto-generated method stub
-		return Arrays.asList(this.restTemplate.getForObject("http://localhost:8080/api/salesterritory/customquery",
+		return Arrays.asList(this.restTemplate.getForObject("http://localhost:8080/api/salesterritory/customquery/",
 				Salesterritory[].class));
 	}
 

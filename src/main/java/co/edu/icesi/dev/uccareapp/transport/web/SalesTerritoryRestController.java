@@ -1,5 +1,6 @@
 package co.edu.icesi.dev.uccareapp.transport.web;
 
+import java.util.Arrays;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +36,7 @@ public class SalesTerritoryRestController {
 	
 	@GetMapping("/api/salesterritory/")
 	public Iterable<Salesterritory> findAll(){
+		System.out.println("STS REST: "+this.salesterritoryservice.findAll());
 		return this.salesterritoryservice.findAll();
 	}
 	
