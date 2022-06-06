@@ -165,9 +165,19 @@ public class SalesPersonControllerImp implements SalesPersonController {
 			
 			Map<Salesperson, Integer> spmap = this.salesPersonService.customQuery(st, minDate, maxDate);
 			
-			System.out.println("========\n"+spmap.keySet()+"\n========\n");
-			/*System.out.println("========\n======\n"+spmap.get(0)+"\n========\n=======\n");
-			System.out.println("========\n======\n"+spmap.get(1)+"\n========\n=======\n");*/
+			System.out.println("========\n"+spmap+"\n========\n");
+			System.out.println("========\n======\n"+"Salesperson"+spmap.get(spmap.keySet().toArray()[0])+"\n========\n=======\n");
+			System.out.println("========\n======\n"+spmap.get(spmap.keySet().toArray()[1])+"\n========\n=======\n");
+		
+			
+			Object[] sps =spmap.keySet().toArray();
+			
+			for(int i = 0; i < sps.length; i++) {
+				
+				System.out.println("========\n"+"Salesperson: "+((Salesperson) sps[i]).getBusinessentityid()+"\n");
+				System.out.println("Count: "+spmap.get(((Salesperson) sps[i])));
+				System.out.println("\n========\n");
+			}
 			
 		}
 		return "/salesperson/customquery-result";

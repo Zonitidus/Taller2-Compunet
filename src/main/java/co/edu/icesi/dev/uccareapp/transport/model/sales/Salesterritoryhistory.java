@@ -55,7 +55,7 @@ public class Salesterritoryhistory implements Serializable {
 	// bi-directional many-to-one association to Salesterritory
 	@ManyToOne
 	@JoinColumn(name = "territoryid")
-	@JsonIgnoreProperties({"customers","salesorderheaders","salespersons","salesterritoryhistories"})
+	@JsonIgnoreProperties(value = {"customers","salesorderheaders","salespersons","salesterritoryhistories"}, allowSetters = true)
 	private Salesterritory salesterritory;
 
 	public Salesterritoryhistory() {
