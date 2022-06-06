@@ -121,7 +121,7 @@ public class TallerunoApplication {
 			salesTerritoryRepository.save(stEdit);
 			
 			
-			Salesperson sp = new Salesperson();
+			/*Salesperson sp = new Salesperson();
 			sp.setCommissionpct(new BigDecimal(0.24));
 			sp.setBusinessentityid(1);
 			sp.setSalesquota(new BigDecimal(100));
@@ -129,7 +129,7 @@ public class TallerunoApplication {
 			sp.setSalesterritory(st);
 			sp.setBusinessentityid(be.getBusinessentityid());
 			
-			salesPersonService.save(sp);
+			salesPersonService.save(sp);*/
 			
 			Currencyrate currencyrate = new Currencyrate();
 			currencyrate.setAveragerate(BigDecimal.valueOf(10));
