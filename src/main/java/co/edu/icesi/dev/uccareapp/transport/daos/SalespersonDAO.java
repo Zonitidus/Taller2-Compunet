@@ -2,11 +2,14 @@ package co.edu.icesi.dev.uccareapp.transport.daos;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Repository;
@@ -62,13 +65,14 @@ public class SalespersonDAO implements ISalespersonDAO {
 
 	@Override
 	public Iterable<Salesperson> findByCommissionpct(BigDecimal commissionpct) {
-		Query query = entityManager.createQuery("SELECT sp FROM Salesperson sp WHERE sp.commissionpct = :commissionpct");
+		Query query = entityManager
+				.createQuery("SELECT sp FROM Salesperson sp WHERE sp.commissionpct = :commissionpct");
 		query.setParameter("commissionpct", commissionpct);
 		return query.getResultList();
 	}
 
 	@Override
-	public Iterable<Salesperson> customQuery(Salesterritory salesterritory, Date minDate, Date maxDate) {
+	public Map<Salesperson, Integer> customQuery(Salesterritory salesterritory, Date minDate, Date maxDate) {
 		/*
 		 * La(s) personas vendedoras (s) con sus datos y la cantidad de territorios de
 		 * venta que ha tenido (incluyendo el actual), ordenados por cuota de ventas.
@@ -80,19 +84,25 @@ public class SalespersonDAO implements ISalespersonDAO {
 		 * establecido
 		 */
 
-		Query query = entityManager.createQuery(
-				"SELECT sp FROM Salesperson sp "
-				+ "WHERE (SELECT COUNT(sth) FROM Salesterritoryhistory sth "
-				+ "WHERE sth MEMBER OF sp.salespterritoryhistories "
-				+ "AND sth.startdate>=minDate "
-				+ "AND sth.enddate<=maxDate)>=1 "
-				+ "AND stId = sp.salesterritory.territoryid"
-				+ "ORDER BY sp.salesquota ASC");
+		String jpql = "SELECT sp as salesPerson,"
+				+ "(SIZE(sp.salesterritoryhistories)+1) as spCount FROM Salesperson sp, "
+				+ "Salesterritoryhistory sthtemp "
+				
+				+ "WHERE sthtemp MEMBER OF sp.salesterritoryhistories " + "AND sp.salesterritory.territoryid= :stID "
+				+ "AND sthtemp.modifieddate>= :startdate " + "AND sthtemp.enddate<= :enddate "
+				+ "GROUP BY sp.businessentityid " + "ORDER BY sp.salesquota";
+		
+		TypedQuery<Object[]> query = entityManager.createQuery(jpql, Object[].class);
+		query.setParameter("stID", salesterritory.getTerritoryid());
+		query.setParameter("startdate", minDate);
+		query.setParameter("enddate", maxDate);
 
-		query.setParameter("stId", salesterritory.getTerritoryid());
-		query.setParameter("minDate", minDate);
-		query.setParameter("maxDate", maxDate);
-
-		return query.getResultList();
+		return query.getResultList().stream()
+				.collect(
+					    Collectors.toMap(
+					        ob -> ((Salesperson) ob[0]),
+					        ob -> ((Integer) ob[1])
+					    )
+					);
 	}
 }

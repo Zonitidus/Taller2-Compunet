@@ -1,6 +1,10 @@
 package co.edu.icesi.dev.uccareapp.transport.controller.implementation;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -127,4 +131,46 @@ public class SalesPersonControllerImp implements SalesPersonController {
 
 		return "info/salesterritory-info";
 	}
+	
+	@GetMapping("/salesperson/customquery")
+	public String salesPersonCustomQueryGet(Model model) {
+		
+		model.addAttribute("salesterritories", this.salesTerritoryRepository.findAll());
+		
+		model.addAttribute("st", new Salesterritory());
+		model.addAttribute("minDate", new Date());
+		model.addAttribute("maxDate", new Date());
+
+		return "salesperson/customquery";
+	}
+	
+	@PostMapping("/salesperson/customquery")
+	public String salesPersonCustomQueryPost(@ModelAttribute Salesterritory st, @ModelAttribute Date minDate, @ModelAttribute Date maxDate, BindingResult bindingResult, Model model,
+			@RequestParam(value = "action", required = true) String action) {
+
+		if (!action.equals("Cancel")) {
+			if (bindingResult.hasErrors()) {
+				
+				model.addAttribute("salesterritories", this.salesTerritoryRepository.findAll());
+				
+				System.out.println("****************fffffffffffffff" + "*");
+				return "/salesperson/customquery";
+			}
+			
+			st = this.salesTerritoryRepository.findById(1).get();
+			minDate = Timestamp.valueOf(LocalDateTime.now().minusDays(10));
+			maxDate = Timestamp.valueOf(LocalDateTime.now().minusDays(0));
+			
+			System.out.println(st.getName());
+			
+			Map<Salesperson, Integer> spmap = this.salesPersonService.customQuery(st, minDate, maxDate);
+			
+			System.out.println("========\n"+spmap.keySet()+"\n========\n");
+			/*System.out.println("========\n======\n"+spmap.get(0)+"\n========\n=======\n");
+			System.out.println("========\n======\n"+spmap.get(1)+"\n========\n=======\n");*/
+			
+		}
+		return "/salesperson/customquery-result";
+	}
+
 }

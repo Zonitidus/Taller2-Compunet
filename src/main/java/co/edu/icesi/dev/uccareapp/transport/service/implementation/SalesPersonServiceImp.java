@@ -2,6 +2,7 @@ package co.edu.icesi.dev.uccareapp.transport.service.implementation;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -135,7 +136,7 @@ public class SalesPersonServiceImp implements SalesPersonService {
 	}
 
 	@Override
-	public Iterable<Salesperson> customQuery(Salesterritory salesterritory, Date minDate, Date maxDate) {
+	public Map<Salesperson, Integer> customQuery(Salesterritory salesterritory, Date minDate, Date maxDate) {
 		// TODO Auto-generated method stub
 		return this.salespersondao.customQuery(salesterritory, minDate, maxDate);
 	}

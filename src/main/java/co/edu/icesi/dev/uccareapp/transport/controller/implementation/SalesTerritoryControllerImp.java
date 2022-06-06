@@ -109,4 +109,11 @@ public class SalesTerritoryControllerImp implements SalesTerritoryController {
 
 		return "info/countryregioncode-info";
 	}
+	
+	@GetMapping("/salesterritory/customquery")
+	public String customQuery(Model model) {
+		model.addAttribute("salesterritories", salesTerritoryServiceImp.customQuery());
+
+		return "salesterritory/index";
+	}
 }
