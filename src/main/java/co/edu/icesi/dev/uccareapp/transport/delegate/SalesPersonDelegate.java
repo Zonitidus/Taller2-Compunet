@@ -1,11 +1,17 @@
 package co.edu.icesi.dev.uccareapp.transport.delegate;
 
 import java.math.BigDecimal;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
@@ -71,9 +77,12 @@ public class SalesPersonDelegate implements ISalesPersonDelegate {
 
 	@Override
 	public Iterable<Salesperson> customQuery(Salesterritory salesterritory, Date minDate, Date maxDate) {
-		// TODO Auto-generated method stub
+
+		Timestamp strMinDate = new Timestamp(minDate.getTime());
+		Timestamp strMaxDate = new Timestamp(maxDate.getTime());
+
 		return Arrays.asList(this.restTemplate.getForObject("http://localhost:8080/api/salesperson/customquery/"
-				+ salesterritory + "/start/" + minDate + "/end/" + maxDate, Salesperson[].class));
+				+ salesterritory.getTerritoryid() + "/" + strMinDate + "/" + strMaxDate, Salesperson[].class));
 	}
 
 }

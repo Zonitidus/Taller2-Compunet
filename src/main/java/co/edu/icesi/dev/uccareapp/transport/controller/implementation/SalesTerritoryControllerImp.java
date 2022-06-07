@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import co.edu.icesi.dev.uccareapp.transport.controller.interfaces.SalesTerritoryController;
+import co.edu.icesi.dev.uccareapp.transport.delegate.SalesTerritoryDelegate;
 import co.edu.icesi.dev.uccareapp.transport.model.person.Countryregion;
 import co.edu.icesi.dev.uccareapp.transport.model.sales.Salespersonquotahistory;
 import co.edu.icesi.dev.uccareapp.transport.model.sales.Salesterritory;
@@ -25,7 +26,7 @@ import co.edu.icesi.dev.uccareapp.transport.service.implementation.SalesTerritor
 public class SalesTerritoryControllerImp implements SalesTerritoryController {
 
 	@Autowired
-	SalesTerritoryServiceImp salesTerritoryServiceImp;
+	SalesTerritoryDelegate salesTerritorydelegate;
 	@Autowired
 	CountryRegionRepository countryRegionRepo;
 	
@@ -41,7 +42,7 @@ public class SalesTerritoryControllerImp implements SalesTerritoryController {
 
 	@GetMapping("/salesterritory/")
 	public String indexSalesPerson(Model model) {
-		model.addAttribute("salesterritories", salesTerritoryServiceImp.findAll());
+		model.addAttribute("salesterritories", salesTerritorydelegate.findAll());
 
 		return "salesterritory/index";
 	}
@@ -56,7 +57,7 @@ public class SalesTerritoryControllerImp implements SalesTerritoryController {
 				System.out.println("****************fffffffffffffff" + "*");
 				return "/salesterritory/add-salesterritory";
 			}
-			salesTerritoryServiceImp.save(st);
+			salesTerritorydelegate.save(st);
 			model.addAttribute("id", st.getTerritoryid());
 		}
 		return "redirect:/salesterritory/";
@@ -65,7 +66,7 @@ public class SalesTerritoryControllerImp implements SalesTerritoryController {
 	@GetMapping("/salesterritory/edit/{id}")
 	public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
 
-		Optional<Salesterritory> user = salesTerritoryServiceImp.findById(id);
+		Optional<Salesterritory> user = salesTerritorydelegate.findById(id);
 
 		if (user == null)
 			throw new IllegalArgumentException("Invalid user Id:" + id);
@@ -88,8 +89,8 @@ public class SalesTerritoryControllerImp implements SalesTerritoryController {
 			Salesterritory u = st;
 			u.setTerritoryid(id);
 
-			salesTerritoryServiceImp.edit(u);
-			model.addAttribute("salesterritories", salesTerritoryServiceImp.findAll());
+			salesTerritorydelegate.edit(u);
+			model.addAttribute("salesterritories", salesTerritorydelegate.findAll());
 		}
 		return "redirect:/salesterritory/";
 	}
@@ -112,7 +113,7 @@ public class SalesTerritoryControllerImp implements SalesTerritoryController {
 	
 	@GetMapping("/salesterritory/customquery")
 	public String customQuery(Model model) {
-		model.addAttribute("salesterritories", salesTerritoryServiceImp.customQuery());
+		model.addAttribute("salesterritories", salesTerritorydelegate.customQuery());
 
 		return "salesterritory/index";
 	}

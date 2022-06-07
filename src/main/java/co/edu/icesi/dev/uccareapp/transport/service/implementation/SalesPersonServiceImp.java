@@ -136,9 +136,16 @@ public class SalesPersonServiceImp implements SalesPersonService {
 	}
 
 	@Override
-	public Map<Salesperson, Integer> customQuery(Salesterritory salesterritory, Date minDate, Date maxDate) {
+	public Iterable<Salesperson> customQuery(Salesterritory salesterritory, Date minDate, Date maxDate) {
 		// TODO Auto-generated method stub
-		return this.salespersondao.customQuery(salesterritory, minDate, maxDate);
+		
+		Iterable<Salesperson> sps = this.salespersondao.customQuery(salesterritory, minDate, maxDate);
+		
+		for(Salesperson sp: sps) {
+			System.out.println("COUNT --> "+sp.getCustomQueryCount());
+		}
+		
+		return sps;
 	}
 
 }

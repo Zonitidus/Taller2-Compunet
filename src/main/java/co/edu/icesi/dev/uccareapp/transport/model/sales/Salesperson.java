@@ -52,6 +52,8 @@ public class Salesperson implements Serializable {
 	private BigDecimal salesquota;
 
 	private BigDecimal salesytd;
+	
+	private Integer customquerycount;
 
 	// bi-directional many-to-one association to Salesorderheader
 	@OneToMany(mappedBy = "salesperson")
@@ -60,7 +62,7 @@ public class Salesperson implements Serializable {
 	// bi-directional many-to-one association to Salesterritory
 	@ManyToOne
 	@JoinColumn(name = "territoryid")
-	@JsonIgnoreProperties("salespersons")
+	@JsonIgnoreProperties(value = "salespersons",  allowSetters = true)
 	private Salesterritory salesterritory;
 
 	// bi-directional many-to-one association to Salespersonquotahistory
@@ -236,6 +238,14 @@ public class Salesperson implements Serializable {
 
 	public void setStores(List<Store> stores) {
 		this.stores = stores;
+	}
+
+	public Integer getCustomQueryCount() {
+		return customquerycount;
+	}
+
+	public void setCustomQueryCount(Integer customQueryCount) {
+		this.customquerycount = customQueryCount;
 	}
 
 }

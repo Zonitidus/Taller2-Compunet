@@ -56,8 +56,8 @@ public class SalesTerritoryHistoryServiceImp implements SalesTerritoyHistoryServ
 		
 		System.out.println(sth.getSalesterritory().getTerritoryid());
 		System.out.println(sth.getSalesperson().getBusinessentityid());
-		if (this.businessEntityRepository.findById(sth.getSalesperson().getBusinessentityid()).isEmpty())
-			throw new RuntimeException("Invalid BusinessEntityId");
+		/*if (this.businessEntityRepository.findById(sth.getSalesperson().getBusinessentityid()).isEmpty())
+			throw new RuntimeException("Invalid BusinessEntityId");*/
 
 		if (this.salesTerritoryRepository.findById(sth.getSalesterritory().getTerritoryid()).isEmpty())
 			throw new RuntimeException("Invalid associated SalesTerritory");

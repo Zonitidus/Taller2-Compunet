@@ -1,6 +1,7 @@
 package co.edu.icesi.dev.uccareapp.transport.daos;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Map;
 import java.util.Optional;
@@ -72,7 +73,7 @@ public class SalespersonDAO implements ISalespersonDAO {
 	}
 
 	@Override
-	public Map<Salesperson, Integer> customQuery(Salesterritory salesterritory, Date minDate, Date maxDate) {
+	public Iterable<Salesperson> customQuery(Salesterritory salesterritory, Date minDate, Date maxDate) {
 		/*
 		 * La(s) personas vendedoras (s) con sus datos y la cantidad de territorios de
 		 * venta que ha tenido (incluyendo el actual), ordenados por cuota de ventas.
@@ -85,24 +86,39 @@ public class SalespersonDAO implements ISalespersonDAO {
 		 */
 
 		String jpql = "SELECT sp as salesPerson,"
-				+ "(SIZE(sp.salesterritoryhistories)+1) as spCount FROM Salesperson sp, "
+				+ "(SIZE(sp.salesterritoryhistories)) as spCount FROM Salesperson sp, "
 				+ "Salesterritoryhistory sthtemp "
 				
-				+ "WHERE sthtemp MEMBER OF sp.salesterritoryhistories " + "AND sp.salesterritory.territoryid= :stID "
+				+ "WHERE sthtemp MEMBER OF sp.salesterritoryhistories " + "AND sp.salesterritory.territoryid= :salesterritoryid "
 				+ "AND sthtemp.modifieddate>= :startdate " + "AND sthtemp.enddate<= :enddate "
 				+ "GROUP BY sp.businessentityid " + "ORDER BY sp.salesquota";
 		
 		TypedQuery<Object[]> query = entityManager.createQuery(jpql, Object[].class);
-		query.setParameter("stID", salesterritory.getTerritoryid());
+		query.setParameter("salesterritoryid", salesterritory.getTerritoryid());
 		query.setParameter("startdate", minDate);
 		query.setParameter("enddate", maxDate);
 
-		return query.getResultList().stream()
-				.collect(
-					    Collectors.toMap(
-					        ob -> ((Salesperson) ob[0]),
-					        ob -> ((Integer) ob[1])
-					    )
-					);
+		Map<Salesperson, Integer> pre = query.getResultList().stream()
+		.collect(
+			    Collectors.toMap(
+			        ob -> ((Salesperson) ob[0]),
+			        ob -> ((Integer) ob[1])
+			    )
+			);
+		
+		
+		Object[] sps = pre.keySet().toArray();
+		
+		ArrayList<Salesperson> salespersons = new ArrayList<Salesperson>();
+		
+		for(int i = 0; i < sps.length; i++) {
+			
+			Salesperson sptemp = ((Salesperson) sps[i]);
+			sptemp.setCustomQueryCount(pre.get(sptemp));
+			salespersons.add(sptemp);
+		}
+		
+		
+		return salespersons;
 	}
 }

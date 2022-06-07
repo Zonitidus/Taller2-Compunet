@@ -1,8 +1,15 @@
 package co.edu.icesi.dev.uccareapp.transport.web;
 
 import java.math.BigDecimal;
+import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.Locale;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,12 +24,16 @@ import org.springframework.web.bind.annotation.RestController;
 import co.edu.icesi.dev.uccareapp.transport.model.sales.Salesperson;
 import co.edu.icesi.dev.uccareapp.transport.model.sales.Salesterritory;
 import co.edu.icesi.dev.uccareapp.transport.service.implementation.SalesPersonServiceImp;
+import co.edu.icesi.dev.uccareapp.transport.service.implementation.SalesTerritoryServiceImp;
 
 @RestController
 public class SalesPersonRestController {
 
 	@Autowired
 	private SalesPersonServiceImp salespersonservice;
+	
+	@Autowired
+	private SalesTerritoryServiceImp salesterritoryservice;
 
 	@PostMapping("/api/salesperson/add")
 	public void addSalesPersonQuotaHistory(@RequestBody Salesperson sp) {
@@ -64,10 +75,36 @@ public class SalesPersonRestController {
 		return this.salespersonservice.findByCommissionpct(commissionpct);
 	}
 
-	@GetMapping("/api/salesperson/customquery/salesterritory/start/minDate/end/maxDate")
-	public Iterable<Salesperson> customQuery(@RequestParam("salesterritory") Salesterritory salesterritory,
-			@RequestParam("minDate") Date minDate, @RequestParam("maxDate") Date maxDate) {
+	@GetMapping("/api/salesperson/customquery/{salesterritoryid}/{minDate}/{maxDate}")
+	public Iterable<Salesperson> customQuery(@PathVariable("salesterritoryid") String salesterritoryid,
+			@PathVariable("minDate") String minDate, @PathVariable("maxDate") String maxDate) throws ParseException {
 
-		return this.salespersonservice.customQuery(salesterritory, minDate, maxDate);
+		System.out.println("Está ENTRANDO al rest --->\n\tSalesterritoryid="+salesterritoryid+"\n\tminDate="+minDate+"\n\tmaxdate="+maxDate);
+		
+		
+		Salesterritory salesterritory = this.salesterritoryservice.findById(Integer.parseInt(salesterritoryid)).get();
+		
+		Timestamp minDateParsed = new Timestamp(0);
+		Timestamp maxDateParsed = new Timestamp(0);
+		
+		try {
+		    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.SSS");
+		    
+		    Date parsedDateMin = dateFormat.parse(minDate);
+		    Date parsedDateMax = dateFormat.parse(maxDate);
+		    
+		    minDateParsed = new java.sql.Timestamp(parsedDateMin.getTime());
+		    maxDateParsed = new java.sql.Timestamp(parsedDateMax.getTime());
+		    
+		    
+		} catch(Exception e) { 
+
+		}
+		
+		System.out.println("Está SALIENDO del rest --->\n\tSalesterritoryid="+salesterritoryid+"\n\tminDate="+minDateParsed+"\n\tmaxdate="+maxDateParsed);
+		
+		
+		
+		return this.salespersonservice.customQuery(salesterritory, minDateParsed, maxDateParsed);
 	}
 }

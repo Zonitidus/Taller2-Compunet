@@ -18,5 +18,5 @@ public interface SalesPersonService {
 	public Iterable<Salesperson> findByTerritoryid(Integer territoryId);
 	public Iterable<Salesperson> findBySalesquota(BigDecimal salesquota);
 	public Iterable<Salesperson> findByCommissionpct(BigDecimal commissionpct);
-	public Map<Salesperson, Integer> customQuery(Salesterritory salesterritory, Date minDate, Date maxDate);
+	public Iterable<Salesperson> customQuery(Salesterritory salesterritory, Date minDate, Date maxDate);
 }

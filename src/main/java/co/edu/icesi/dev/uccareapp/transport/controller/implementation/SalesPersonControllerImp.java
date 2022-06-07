@@ -19,26 +19,24 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import co.edu.icesi.dev.uccareapp.transport.controller.interfaces.SalesPersonController;
+import co.edu.icesi.dev.uccareapp.transport.delegate.SalesPersonDelegate;
+import co.edu.icesi.dev.uccareapp.transport.delegate.SalesTerritoryDelegate;
 import co.edu.icesi.dev.uccareapp.transport.model.sales.Salesperson;
 import co.edu.icesi.dev.uccareapp.transport.model.sales.Salesterritory;
+import co.edu.icesi.dev.uccareapp.transport.model.sales.Salesterritoryhistory;
 import co.edu.icesi.dev.uccareapp.transport.repository.BusinessEntittyRepository;
 import co.edu.icesi.dev.uccareapp.transport.repository.SalesTerritoryRepository;
 import co.edu.icesi.dev.uccareapp.transport.service.implementation.SalesPersonServiceImp;
 
 @Controller
 public class SalesPersonControllerImp implements SalesPersonController {
-
-	SalesPersonServiceImp salesPersonService;
-	BusinessEntittyRepository businessEntityRepository;
-	SalesTerritoryRepository salesTerritoryRepository;
-
+	
 	@Autowired
-	public SalesPersonControllerImp(SalesPersonServiceImp salesPersonService,
-			BusinessEntittyRepository businessEntityRepository, SalesTerritoryRepository salesTerritoryRepository) {
-		this.salesPersonService = salesPersonService;
-		this.businessEntityRepository = businessEntityRepository;
-		this.salesTerritoryRepository = salesTerritoryRepository;
-	}
+	SalesPersonDelegate salespersondelegate;
+	@Autowired
+	SalesTerritoryDelegate salesterritorydelegate;
+	@Autowired
+	BusinessEntittyRepository businesentitEntittyRepository;
 
 	@GetMapping("/login")
 	public String login(Model model) {
@@ -49,15 +47,15 @@ public class SalesPersonControllerImp implements SalesPersonController {
 	public String addSalesPerson(Model model) {
 
 		model.addAttribute("salesperson", new Salesperson());
-		model.addAttribute("businessentities", businessEntityRepository.findAll());
-		model.addAttribute("salesterritories", salesTerritoryRepository.findAll());
+		model.addAttribute("businessentities", businesentitEntittyRepository.findAll());
+		model.addAttribute("salesterritories", salesterritorydelegate.findAll());
 		
 		return "salesperson/add-salesperson";
 	}
 
 	@GetMapping("/salesperson/")
 	public String indexSalesPerson(Model model) {
-		model.addAttribute("salespersons", salesPersonService.findAll());
+		model.addAttribute("salespersons", salespersondelegate.findAll());
 		
 		return "salesperson/index";
 	}
@@ -69,13 +67,13 @@ public class SalesPersonControllerImp implements SalesPersonController {
 		if (!action.equals("Cancel")) {
 			if (bindingResult.hasErrors()) {
 				
-				model.addAttribute("businessentities", businessEntityRepository.findAll());
-				model.addAttribute("salesterritories", salesTerritoryRepository.findAll());
+				model.addAttribute("businessentities", businesentitEntittyRepository.findAll());
+				model.addAttribute("salesterritories", salesterritorydelegate.findAll());
 				
 				System.out.println("****************fffffffffffffff" + "*");
 				return "/salesperson/add-salesperson";
 			}
-			salesPersonService.save(sp);
+			salespersondelegate.save(sp);
 			System.out.println("**********" + sp.getBusinessentityid());
 			model.addAttribute("id", sp.getBusinessentityid());
 		}
@@ -84,12 +82,12 @@ public class SalesPersonControllerImp implements SalesPersonController {
 
 	@GetMapping("/salesperson/edit/{id}")
 	public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
-		Optional<Salesperson> user = salesPersonService.findById(id);
+		Optional<Salesperson> user = salespersondelegate.findById(id);
 		
 		if (user == null)
 			throw new IllegalArgumentException("Invalid user Id:" + id);
 		model.addAttribute("salesperson", user.get());
-		model.addAttribute("salesterritories", salesTerritoryRepository.findAll());
+		model.addAttribute("salesterritories", salesterritorydelegate.findAll());
 		
 		return "salesperson/update-salesperson";
 	}
@@ -100,8 +98,8 @@ public class SalesPersonControllerImp implements SalesPersonController {
 		if (action != null && !action.equals("Cancel")) {
 			if (bindingResult.hasErrors()) {
 				
-				model.addAttribute("businessentities", businessEntityRepository.findAll());
-				model.addAttribute("salesterritories", salesTerritoryRepository.findAll());
+				model.addAttribute("businessentities", businesentitEntittyRepository.findAll());
+				model.addAttribute("salesterritories", salesterritorydelegate.findAll());
 				
 				return "/salesperson/update-salesperson";
 			}
@@ -110,8 +108,8 @@ public class SalesPersonControllerImp implements SalesPersonController {
 			Salesperson salesp = sp;
 			salesp.setBusinessentityid(businessentityid);
 			
-			salesPersonService.edit(salesp);
-			model.addAttribute("salespersons", salesPersonService.findAll());
+			salespersondelegate.edit(salesp);
+			model.addAttribute("salespersons", salespersondelegate.findAll());
 		}
 		return "redirect:/salesperson/";
 	}
@@ -119,7 +117,7 @@ public class SalesPersonControllerImp implements SalesPersonController {
 	@GetMapping("/salesperson/show-salesterritory/{id}")
 	public String showSalesterritory(@PathVariable("id") Integer id, Model model) {
 		
-		Optional<Salesterritory> user = this.salesTerritoryRepository.findById(id);
+		Optional<Salesterritory> user = this.salesterritorydelegate.findById(id);
 
 		if (user == null)
 			throw new IllegalArgumentException("Invalid user Id:" + id);
@@ -135,9 +133,9 @@ public class SalesPersonControllerImp implements SalesPersonController {
 	@GetMapping("/salesperson/customquery")
 	public String salesPersonCustomQueryGet(Model model) {
 		
-		model.addAttribute("salesterritories", this.salesTerritoryRepository.findAll());
+		model.addAttribute("salesterritories", this.salesterritorydelegate.findAll());
 		
-		model.addAttribute("st", new Salesterritory());
+		model.addAttribute("salesterritoryhistory", new Salesterritoryhistory());
 		model.addAttribute("minDate", new Date());
 		model.addAttribute("maxDate", new Date());
 
@@ -145,42 +143,62 @@ public class SalesPersonControllerImp implements SalesPersonController {
 	}
 	
 	@PostMapping("/salesperson/customquery")
-	public String salesPersonCustomQueryPost(@ModelAttribute Salesterritory st, @ModelAttribute Date minDate, @ModelAttribute Date maxDate, BindingResult bindingResult, Model model,
-			@RequestParam(value = "action", required = true) String action) {
+	public String saveUser(@Validated @ModelAttribute Salesterritoryhistory sth, BindingResult bindingResult,
+			Model model, @RequestParam(value = "action", required = true) String action) {
 
 		if (!action.equals("Cancel")) {
 			if (bindingResult.hasErrors()) {
 				
-				model.addAttribute("salesterritories", this.salesTerritoryRepository.findAll());
+				model.addAttribute("salesterritories", this.salesterritorydelegate.findAll());
 				
 				System.out.println("****************fffffffffffffff" + "*");
 				return "/salesperson/customquery";
 			}
 			
-			st = this.salesTerritoryRepository.findById(1).get();
-			minDate = Timestamp.valueOf(LocalDateTime.now().minusDays(10));
-			maxDate = Timestamp.valueOf(LocalDateTime.now().minusDays(0));
+			if (sth.getModifieddate().compareTo(sth.getEnddate()) >= 0) {
+				model.addAttribute("invalidDate", true);
+				
+				model.addAttribute("salesterritories", this.salesterritorydelegate.findAll());
+				
+				/*model.addAttribute("salesterritoryhistory", new Salesterritoryhistory());
+				model.addAttribute("minDate", new Date());
+				model.addAttribute("maxDate", new Date());
+				*/
+				return "/salesperson/customquery";
+			}
 			
-			System.out.println(st.getName());
+			Salesterritory st = sth.getSalesterritory();
+			Date minDate = sth.getModifieddate();
+			Date maxDate = sth.getEnddate();
 			
-			Map<Salesperson, Integer> spmap = this.salesPersonService.customQuery(st, minDate, maxDate);
+			System.out.println(st.getTerritoryid());
+			System.out.println(minDate);
+			System.out.println(maxDate);
 			
-			System.out.println("========\n"+spmap+"\n========\n");
-			System.out.println("========\n======\n"+"Salesperson"+spmap.get(spmap.keySet().toArray()[0])+"\n========\n=======\n");
-			System.out.println("========\n======\n"+spmap.get(spmap.keySet().toArray()[1])+"\n========\n=======\n");
-		
+			/*st = this.salesterritorydelegate.findById(1).get();
+			minDate = Timestamp.valueOf(LocalDateTime.now().minusDays(20));
+			maxDate = Timestamp.valueOf(LocalDateTime.now().minusDays(0));*/
 			
-			Object[] sps =spmap.keySet().toArray();
+			
+			Iterable<Salesperson> spmap = this.salespersondelegate.customQuery(st, minDate, maxDate);
+			
+			/*Object[] sps = spmap.keySet().toArray();
+			
+			ArrayList<Salesperson> salespersons = new ArrayList<Salesperson>();
 			
 			for(int i = 0; i < sps.length; i++) {
 				
-				System.out.println("========\n"+"Salesperson: "+((Salesperson) sps[i]).getBusinessentityid()+"\n");
-				System.out.println("Count: "+spmap.get(((Salesperson) sps[i])));
+				Salesperson sptemp = ((Salesperson) sps[i]);
+				salespersons.add(sptemp);
+				
+				System.out.println("========\n"+"Salesperson: "+sptemp.getBusinessentityid()+"\n");
+				System.out.println("Count: "+spmap.get(sptemp));
 				System.out.println("\n========\n");
-			}
+			}*/
 			
+			model.addAttribute("salespersons", spmap);
 		}
-		return "/salesperson/customquery-result";
+		return "salesperson/customquery-result";
 	}
 
 }

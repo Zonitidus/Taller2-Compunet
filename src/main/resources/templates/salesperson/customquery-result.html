@@ -27,7 +27,7 @@
 								<th>Sales Quota</th>
 								<th>Sales Commision</th>
 								<th>Sales Territory</th>
-								<th>Edit</th>
+								<th>Count</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -40,16 +40,11 @@
 										<i th:text="${salesperson.salesterritory.name}"></i>
 									</a>
 								</td>
-								<td><a th:href="@{/salesperson/edit/{id}(id=${salesperson.businessentityid})}" class="btn btn-primary"><i
-											class="fas fa-calendar ml-2"></i></a></td>
+								<td th:text="${salesperson.getCustomQueryCount()}"></td >
 							</tr>
 						</tbody>
 					</table>
 				</div>
-				<p class="my-5">
-					<a href="/salesperson/add" class="btn btn-primary"><i class="fas fa-user-plus ml-2"></i></a>
-					<a href="/salesperson/customquery" class="btn btn-primary"><i class="fas fa-box-open"></i></a>
-				</p>
 			</div>
 		</div>
 		<p>

@@ -16,33 +16,37 @@
 		<h2 class="mb-5">Sales Person Query</h2>
 		<div class="row">
 			<div class="col-md-5">
-				<form action="#" th:action="@{/salesperson/customquery}" method="post">
+				<form action="#" th:object="${salesterritoryhistory}" th:action="@{/salesperson/customquery}" method="post">
 					<div class="row">
 						<div class="form-group col-md-6">
 
 						<div class="col-form-label">
-								<label for="type" class="col-form-label">Sales Territory</label>
-								<select class="form-control-range" >
-									<option th:each="salesterritory : ${salesterritories}"
-										th:value="${salesterritory.getTerritoryid()}" class="form-control"
-										th:field="*{st}"
-										th:text="${salesterritory.getTerritoryid()}"
-										th:selected="${st}"></option>
-								</select>
-
-							</div>
-
-							<div class="col-form-label">
 								<label for="date" class="col-form-label">Start Date</label> <input type="date"
-									th:field="*{minDate}" class="form-control" id="minDate"
-									placeholder="Date"> 
+									th:field="*{modifieddate}" class="form-control" id="modifieddate"
+									placeholder="Date"> <span th:if="${#fields.hasErrors('modifieddate')}"
+									th:errors="*{modifieddate}" class="text-danger"></span>
 							</div>
 
 							<div class="col-form-label">
 								<label for="date" class="col-form-label">End Date</label> <input type="date"
-									th:field="*{maxDate}" class="form-control" id="maxDate"
-									placeholder="Date"> 
+									th:field="*{enddate}" class="form-control" id="enddate" placeholder="Date"> <span
+									th:if="${#fields.hasErrors('enddate')}" th:errors="*{enddate}"
+									class="text-danger"></span>
 							</div>
+
+
+							<div class="col-form-label">
+								<label for="type" class="col-form-label">Sales Territory</label>
+								<select class="form-control-range" th:field="*{salesterritory}">
+									<option th:each="salesterritory : ${salesterritories}"
+										th:value="${salesterritory.getTerritoryid()}" class="form-control"
+										th:text="${salesterritory.getName()}"
+										th:selected="${salesterritoryhistory.salesterritory=salesterritory}"></option>
+								</select>
+								
+								<span th:if="${invalidDate==true}" class="text-danger">
+									End date must be greater than start date
+								</span>
 
 						</div>
 						<div class="row">
