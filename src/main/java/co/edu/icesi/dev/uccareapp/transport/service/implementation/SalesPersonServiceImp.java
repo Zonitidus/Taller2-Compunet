@@ -23,19 +23,16 @@ import co.edu.icesi.dev.uccareapp.transport.service.interfaces.SalesPersonServic
 public class SalesPersonServiceImp implements SalesPersonService {
 
 	private BusinessEntittyRepository businessEntityRepo;
-	private EmployeeRepository employeeRepo;
 	private SalesPersonRepository salesPersonRepo;
 	private SalesTerritoryRepository salesTerritoryRepo;
-
 	private SalespersonDAO salespersondao;
 
 	@Autowired
-	public SalesPersonServiceImp(BusinessEntittyRepository businessEntityRepo, EmployeeRepository employeeRepo,
+	public SalesPersonServiceImp(BusinessEntittyRepository businessEntityRepo,
 			SalesPersonRepository salesPersonRepo, SalesTerritoryRepository salesTerritoryRepo,
 			SalespersonDAO salespersondao) {
 
 		this.businessEntityRepo = businessEntityRepo;
-		this.employeeRepo = employeeRepo;
 		this.salesPersonRepo = salesPersonRepo;
 		this.salesTerritoryRepo = salesTerritoryRepo;
 		this.salespersondao = salespersondao;
@@ -64,7 +61,7 @@ public class SalesPersonServiceImp implements SalesPersonService {
 		if (this.salesTerritoryRepo.findById(sp.getSalesterritory().getTerritoryid()).isEmpty())
 			throw new RuntimeException("Non-existent SalesterritoryId");
 
-		this.salesPersonRepo.save(sp);
+		salespersondao.save(sp);
 	}
 
 	@Override
@@ -105,7 +102,7 @@ public class SalesPersonServiceImp implements SalesPersonService {
 		spModified.setSalesytd(sp.getSalesytd());
 		spModified.setStores(sp.getStores());
 
-		this.salesPersonRepo.save(spModified);
+		salespersondao.save(spModified);
 	}
 
 	@Override
@@ -121,7 +118,7 @@ public class SalesPersonServiceImp implements SalesPersonService {
 	@Override
 	public Iterable<Salesperson> findByTerritoryid(Integer territoryId) {
 		// TODO Auto-generated method stub
-		return this.salespersondao.findAll();
+		return this.salespersondao.findByTerritoryid(territoryId);
 	}
 
 	@Override

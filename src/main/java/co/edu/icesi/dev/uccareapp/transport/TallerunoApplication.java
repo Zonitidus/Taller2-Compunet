@@ -63,7 +63,7 @@ public class TallerunoApplication {
 			u.setUsername("admin");
 			u.setPassword("{noop}123");
 		
-			/*ur.save(u);*/
+//			ur.save(u);
 			
 			UserApp u2 = new UserApp();
 			u2.setId(2);
@@ -71,7 +71,7 @@ public class TallerunoApplication {
 			u2.setUsername("operator");
 			u2.setPassword("{noop}123");
 		
-			/*ur.save(u2);*/
+//			ur.save(u2);
 			
 			
 			Businessentity be = new Businessentity();
@@ -86,8 +86,10 @@ public class TallerunoApplication {
 			Businessentity be4 = new Businessentity();
 			be4.setModifieddate(Timestamp.valueOf(LocalDateTime.now().minusDays(2)));
 			
-			/*ber.save(be);
-			ber.save(be2);*/
+//			ber.save(be);
+//			ber.save(be2);
+//			ber.save(be3);
+//			ber.save(be4);
 
 			
 			
@@ -100,8 +102,8 @@ public class TallerunoApplication {
 			Countryregion crusa = new Countryregion();
 			crusa.setName("EstadosUnidos");
 
-			/*countryRegionRepo.save(cruk);
-			countryRegionRepo.save(crusa);*/
+//			countryRegionRepo.save(cruk);
+//			countryRegionRepo.save(crusa);
 			
 			Iterable<Countryregion> crs = countryRegionRepo.findAll();
 			for (Countryregion country : crs) {
@@ -120,44 +122,40 @@ public class TallerunoApplication {
 			st.setName("London");
 			st.setCountryregioncode(regionCodeUK);
 
-			//salesTerritoryRepository.save(st);
+//			salesTerritoryRepository.save(st);
 			
 			Salesterritory stEdit = new Salesterritory();
 			stEdit.setTerritoryid(2);
 			stEdit.setName("Boston");
 			stEdit.setCountryregioncode(regionCodeUSA);
 			
-			//salesTerritoryRepository.save(stEdit);
+//			salesTerritoryRepository.save(stEdit);
 			
 			
 			Salesperson sp = new Salesperson();
 			sp.setCommissionpct(new BigDecimal(0.24));
-			sp.setBusinessentityid(1);
 			sp.setSalesquota(new BigDecimal(100));
-			
 			sp.setSalesterritory(st);
 			sp.setBusinessentityid(be.getBusinessentityid());
 			
 			Salesperson sp2 = new Salesperson();
 			sp2.setCommissionpct(new BigDecimal(0.38));
-			sp2.setBusinessentityid(2);
 			sp2.setSalesquota(new BigDecimal(100));
-			
 			sp2.setSalesterritory(stEdit);
 			sp2.setBusinessentityid(be2.getBusinessentityid());
 			
-			/*salesPersonService.save(sp);
-			salesPersonService.save(sp2);*/
+//			salesPersonService.save(sp);
+//			salesPersonService.save(sp2);
 			
 			Currencyrate currencyrate = new Currencyrate();
 			currencyrate.setAveragerate(BigDecimal.valueOf(10));
 			
-			//currencyRateService.save(currencyrate);
+//			currencyRateService.save(currencyrate);
 			
 			Currencyrate currencyrate2 = new Currencyrate();
 			currencyrate2.setAveragerate(BigDecimal.valueOf(20));
 			
-			//currencyRateService.save(currencyrate2);
+//			currencyRateService.save(currencyrate2);
 			
 			
 			Salesterritoryhistory sth = new Salesterritoryhistory();
@@ -172,8 +170,8 @@ public class TallerunoApplication {
 			sth2.setSalesperson(sp2);
 			sth2.setSalesterritory(st);
 			
-			//salesterritoryhistoryservice.save(sth);
-			//salesterritoryhistoryservice.save(sth2);
+//			salesterritoryhistoryservice.save(sth);
+//			salesterritoryhistoryservice.save(sth2);
 			
 		};
 

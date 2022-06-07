@@ -27,7 +27,6 @@ public class SalespersonDAO implements ISalespersonDAO {
 	private EntityManager entityManager;
 
 	@Override
-	@Transactional
 	public void save(Salesperson entity) {
 		entityManager.persist(entity);
 	}
