@@ -84,16 +84,14 @@ public class SalespersonDAO implements ISalespersonDAO {
 		 * establecido
 		 */
 
-		String jpql = "SELECT sp as salesPerson,"
-				+ "(SIZE(sp.salesterritoryhistories)) as spCount FROM Salesperson sp, "
-				+ "Salesterritoryhistory sthtemp "
-				
-				+ "WHERE sthtemp MEMBER OF sp.salesterritoryhistories " + "AND sp.salesterritory.territoryid= :salesterritoryid "
-				+ "AND sthtemp.modifieddate>= :startdate " + "AND sthtemp.enddate<= :enddate "
+		String jpql = "SELECT sp,(SIZE(sp.salesterritoryhistories)) AS sthcount "
+				+ "FROM Salesperson sp, Salesterritoryhistory sth "
+				+ "WHERE sth MEMBER OF sp.salesterritoryhistories " + "AND sp.salesterritory.territoryid= :stId "
+				+ "AND sth.modifieddate>= :startdate " + "AND sth.enddate<= :enddate "
 				+ "GROUP BY sp.businessentityid " + "ORDER BY sp.salesquota";
 		
 		TypedQuery<Object[]> query = entityManager.createQuery(jpql, Object[].class);
-		query.setParameter("salesterritoryid", salesterritory.getTerritoryid());
+		query.setParameter("stId", salesterritory.getTerritoryid());
 		query.setParameter("startdate", minDate);
 		query.setParameter("enddate", maxDate);
 
