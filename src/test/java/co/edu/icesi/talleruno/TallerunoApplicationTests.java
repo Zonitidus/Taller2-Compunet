@@ -8,6 +8,9 @@ class TallerunoApplicationTests {
 
 	@Test
 	void contextLoads() {
-	}
+
+	/*jenk test*/
+
+	}	
 
 }
